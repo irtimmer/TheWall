@@ -55,7 +55,7 @@ const props = defineProps<{
   }
 }>()
 
-const style = viewStyle(props.view)
+const style = viewStyle(toRef(() => props.view))
 
 const overlayStyle = computed(() => ({
   width: overlayWidth.value + 'cqw',

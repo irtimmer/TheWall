@@ -23,5 +23,5 @@ const props = defineProps<{
   view: View
 }>()
 
-const style = viewStyle(props.view)
+const style = viewStyle(toRef(() => props.view))
 </script>

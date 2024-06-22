@@ -7,12 +7,12 @@ export type View = {
   height: number
 }
 
-export const viewStyle = (view: View) => computed(() => {
+export const viewStyle = (view: Ref<View>) => computed(() => {
   return {
     position: 'absolute',
-    top: view.top + 'vh',
-    left: view.left + 'cqw',
-    height: view.height + 'vh',
-    width: view.width + 'cqw',
+    top: view.value.top + 'vh',
+    left: view.value.left + 'cqw',
+    height: view.value.height + 'vh',
+    width: view.value.width + 'cqw',
   }
 })
