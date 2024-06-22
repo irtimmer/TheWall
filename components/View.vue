@@ -1,11 +1,17 @@
 <template>
   <div :style="style">
-   <iframe :src="view.url" />
+   <iframe v-if="view.type == 'iframe'" :src="view.url" />
+   <img v-else-if="view.type == 'img'" :src="view.url" />
+   <video v-else-if="view.type == 'video'" :src="view.url" autoplay />
   </div>
 </template>
 
 <style scoped>
-iframe {
+video {
+  background-color: black;
+}
+
+div > * {
   position: relative;
   height: 100%;
   width: 100%;

@@ -1,5 +1,5 @@
 export type View = {
-  class?: string[]
+  type: "iframe" | "video" | "image"
   url: string
   top: number
   left: number
