@@ -6,9 +6,7 @@
     </div>
 
     <div class="pointer-events-auto relative w-screen max-w-sm">
-      <div v-if="activeView" class="relative mt-6 flex-1 px-4 sm:px-6">
-        <input type="text" v-model="activeView.url" class="w-full border border-gray-300 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500" />
-      </div>
+      <Editor v-if="activeView" :view="activeView"/>
     </div>
 </div>
 </template>
