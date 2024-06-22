@@ -1,0 +1,27 @@
+<template>
+  <div v-if="data">
+    <View v-for="view in data.views" :view="view" />
+  </div>
+  <div v-else>
+    <p v-if="error">Error: {{ error }}</p>
+    <p v-else>Loading...</p>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { useEventSource } from '@vueuse/core'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const data = ref([])
+
+const id = route.query.id
+const { data: d } = useEventSource(`/api/events?id=${id}`)
+watch(d, d => {
+  if (!d) return
+
+  const event = JSON.parse(d)
+  if (event.action === 'setup')
+    data.value = event.data
+})
+</script>
