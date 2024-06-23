@@ -1,20 +1,20 @@
 <template>
-  <div class="flex h-screen overflow-hidden">
-    <div ref="container" class="container flex bg-gray-100">
+  <div class="h-screen overflow-hidden">
+    <div ref="container" id="views" class="h-screen bg-gray-100">
       <Placeholder v-if="data" v-for="view in data.views" @click="activeView = view" :view="view" :container="containerDescr" :active="view == activeView"/>
       <button @click="addView()" class="absolute bottom-0 right-0 mb-4 mr-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">+</button>
     </div>
 
-    <div class="pointer-events-auto relative w-screen max-w-sm">
-      <Editor v-if="activeView" :view="activeView"/>
-    </div>
+    <Sidebar v-model:visible="activeView" position="right">
+      <Editor v-if="activeView" :webrtc="webrtc" :view="activeView"/>
+    </Sidebar>
 </div>
 </template>
 
 <style>
 @import url("~/assets/css/base.css");
 
-.container {
+#views {
   container-type: inline-size;
 }
 </style>

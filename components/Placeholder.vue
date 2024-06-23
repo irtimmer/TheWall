@@ -1,11 +1,11 @@
 <template>
-  <div :style="style" class="p-2" :class="view.class">
-   <div :class="activeClass" class="card hover:border-2 bg-white shadow-md flex justify-center items-center h-screen">
-    <div class="title-bar" @mousedown="startMove"></div>
-    <p class="text-center">{{ view.url }}</p>
+  <div @click="clickEvent" :style="style" class="p-2" :class="view.class">
+    <div :class="activeClass" class="card hover:border-2 bg-white shadow-md flex justify-center items-center h-screen">
+      <div class="title-bar" @mousedown="startMove"></div>
+      <p class="text-center">{{ view.url }}</p>
+      <div class="resize-handle" @mousedown="startResize"></div>
+    </div>
     <div class="adjust-overlay" :style="overlayStyle" v-show="adjust"></div>
-    <div class="resize-handle" @mousedown="startResize"></div>
-   </div>
   </div>
 </template>
 
@@ -104,6 +104,7 @@ const startAdjust = (event, action) => {
   adjust.value = action;
   window.addEventListener('mousemove', moveAdjust);
   window.addEventListener('mouseup', stopAdjust);
+  event.preventDefault()
 }
 
 const moveAdjust = (event) => {
@@ -112,14 +113,21 @@ const moveAdjust = (event) => {
   adjust.value?.(dx, dy);
 }
 
-const stopAdjust = () => {
+const stopAdjust = (event) => {
   props.view.top = overlayTop.value;
   props.view.left = overlayLeft.value;
   props.view.width = overlayWidth.value;
   props.view.height = overlayHeight.value;
-  adjust.value = false;
-  window.removeEventListener('mousemove', resize);
-  window.removeEventListener('mousemove', move);
+  window.removeEventListener('mousemove', moveAdjust);
   window.removeEventListener('mouseup', stopAdjust);
+  event.preventDefault()
+  setTimeout(() => {
+    adjust.value = false
+  }, 0)
+}
+
+const clickEvent = (event) => {
+  if (adjust.value)
+    event.stopImmediatePropagation()
 }
 </script>
