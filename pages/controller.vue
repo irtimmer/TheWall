@@ -11,7 +11,9 @@
 </div>
 </template>
 
-<style scoped>
+<style>
+@import url("~/assets/css/base.css");
+
 .container {
   container-type: inline-size;
 }

@@ -1,5 +1,12 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import path from 'path';
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss"]
+  modules: ['@nuxtjs/tailwindcss', 'nuxt-primevue'],
+  primevue: {
+    importPT: { from: path.resolve(__dirname, './presets/aura/') },
+    options: {
+      unstyled: true
+    }
+  }
 })
