@@ -1,5 +1,18 @@
-export type View = {
-  type: "iframe" | "video" | "image"
+type LayoutView = {
+  type: "layout"
+  views: View[]
+  constraints: {
+    width: number
+    height: number
+  }
+  top: number
+  left: number
+  width: number
+  height: number
+}
+
+type ResourceView = {
+  type: "iframe" | "video" | "img"
   url: string
   top: number
   left: number
@@ -7,12 +20,14 @@ export type View = {
   height: number
 }
 
+export type View = LayoutView | ResourceView
+
 export const viewStyle = (view: Ref<View>) => computed(() => {
   return {
     position: 'absolute',
-    top: view.value.top + 'vh',
-    left: view.value.left + 'cqw',
-    height: view.value.height + 'vh',
-    width: view.value.width + 'cqw',
+    top: view.value.top + '%',
+    left: view.value.left + '%',
+    height: view.value.height + '%',
+    width: view.value.width + '%',
   }
 })

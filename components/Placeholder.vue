@@ -1,8 +1,9 @@
 <template>
   <div @click="clickEvent" :style="style" class="p-2" :class="view.class">
     <div :class="activeClass" class="card hover:border-2 bg-white shadow-md flex justify-center items-center h-screen">
+      <Layout v-if="view.type === 'layout'" :data="view" />
+      <p v-else class="text-center">{{ view.url }}</p>
       <div class="title-bar" @mousedown="startMove"></div>
-      <p class="text-center">{{ view.url }}</p>
       <div class="resize-handle" @mousedown="startResize"></div>
     </div>
     <div class="adjust-overlay" :style="overlayStyle" v-show="adjust"></div>
@@ -52,6 +53,10 @@ const props = defineProps<{
   container: {
    width: number
    height: number
+   constraints: {
+     width: number
+     height: number
+   }
   }
 }>()
 
@@ -59,9 +64,9 @@ const style = viewStyle(toRef(() => props.view))
 
 const overlayStyle = computed(() => ({
   width: overlayWidth.value + 'cqw',
-  height: overlayHeight.value + 'vh',
-  top: overlayTop.value - props.view.top + 'vh',
-  left: overlayLeft.value - props.view.left + 'cqw',
+  height: overlayHeight.value + 'cqh',
+  top: overlayTop.value - props.view.top + 'cqh',
+  left: overlayLeft.value - props.view.left + 'cqw'
 }))
 
 const activeClass = computed(() => ({
@@ -70,6 +75,9 @@ const activeClass = computed(() => ({
   'hover:border-gray-200': !props.active,
   'border-gray-500': props.active,
 }))
+
+const snapWidth = computed(() => 100 / props.container.constraints.width)
+const snapHeight = computed(() => 100 / props.container.constraints.height)
 
 let adjust = ref(null);
 let initialX = ref(0);
@@ -84,14 +92,25 @@ const startMove = (event) => startAdjust(event, move)
 const startResize = (event) => startAdjust(event, resize)
 
 const move = (dx, dy) => {
-  overlayTop.value = props.view.top + (dy / props.container.height) * 100;
-  overlayLeft.value = props.view.left + (dx / props.container.width) * 100;
+  let newTop = props.view.top + (dy / props.container.height) * 100
+  let newLeft = props.view.left + (dx / props.container.width) * 100
+  if (props.container.constraints) {
+    newTop = Math.round(newTop / snapHeight.value) * snapHeight.value
+    newLeft = Math.round(newLeft / snapWidth.value) * snapWidth.value
+  }
+  overlayTop.value = Math.max(0, Math.min(newTop, 100 - overlayHeight.value))
+  overlayLeft.value = Math.max(0, Math.min(newLeft, 100 - overlayWidth.value))
 }
 
 const resize = (dx, dy) => {
-  overlayWidth.value = props.view.width + (dx / props.container.width) * 100;
-  overlayHeight.value = props.view.height + (dy / props.container.height) * 100;
-  console.log('resize', overlayWidth.value, overlayHeight.value, dx, dy);
+  let newWidth = props.view.width + (dx / props.container.width) * 100
+  let newHeight = props.view.height + (dy / props.container.height) * 100
+  if (props.container.constraints) {
+    newWidth = Math.round(newWidth / snapWidth.value) * snapWidth.value
+    newHeight = Math.round(newHeight / snapHeight.value) * snapHeight.value
+  }
+  overlayWidth.value = Math.max(0, Math.min(newWidth, 100 - overlayLeft.value))
+  overlayHeight.value = Math.max(0, Math.min(newHeight, 100 - overlayTop.value))
 }
 
 const startAdjust = (event, action) => {
