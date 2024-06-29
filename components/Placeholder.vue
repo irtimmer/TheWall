@@ -3,7 +3,9 @@
     <div :class="activeClass" class="card hover:border-2 bg-white shadow-md flex justify-center items-center h-screen">
       <Layout v-if="view.type === 'layout'" :data="view" />
       <p v-else class="text-center">{{ view.url }}</p>
-      <div class="title-bar" @mousedown="startMove"></div>
+      <div class="title-bar flex justify-end items-center absolute top-0 right-0" @mousedown="startMove">
+        <button @click="$emit('close')" class="mr-2 text-white z-10">X</button>
+      </div>
       <div class="resize-handle" @mousedown="startResize"></div>
     </div>
     <div class="adjust-overlay" :style="overlayStyle" v-show="adjust"></div>
@@ -59,6 +61,8 @@ const props = defineProps<{
    }
   }
 }>()
+
+defineEmits(['close'])
 
 const style = viewStyle(toRef(() => props.view))
 

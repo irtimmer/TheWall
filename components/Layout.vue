@@ -1,7 +1,7 @@
 <template>
   <div ref="container" class="layout">
     <template v-for="view in data.views">
-      <Placeholder @click.stop="active = view" :active="view === active" :view="view" :container="containerDescr" />
+      <Placeholder @click.stop="active = view" @close="removeView(view)" :active="view === active" :view="view" :container="containerDescr" />
     </template>
     <button @click.stop="addView()" class="absolute bottom-0 right-0 mb-4 mr-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">+</button>
   </div>
@@ -57,5 +57,10 @@ function addView() {
     height: 25,
     width: 25
   })
+}
+
+function removeView(view) {
+  const index = props.data.views.indexOf(view)
+  props.data.views.splice(index, 1)
 }
 </script>
