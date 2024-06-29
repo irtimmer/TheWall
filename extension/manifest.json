@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "TheWall",
+  "version": "0.1",
+  "description": "Wall Screen Controller",
+  "permissions": ["<all_urls>", "webRequest", "webNavigation", "webRequestBlocking"],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [{
+    "run_at": "document_start",
+    "matches": ["*://*/*"],
+    "js": ["handler.js"]
+  }]
+}
