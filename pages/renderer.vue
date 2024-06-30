@@ -1,10 +1,9 @@
 <template>
-  <div v-if="data">
+  <div id="wall" v-if="data">
     <View v-for="view in data.views" :view="view" />
   </div>
-  <div v-else>
-    <p v-if="error">Error: {{ error }}</p>
-    <p v-else>Loading...</p>
+  <div @click="openFullscreen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75" v-if="data">
+    <p class="text-white" @click="openFullscreen">Open in fullscreen</p>
   </div>
 </template>
 
@@ -27,4 +26,8 @@ watch(d, d => {
   if (event.action === 'setup')
     data.value = event.data
 })
+
+function openFullscreen() {
+  document.getElementById("wall")?.requestFullscreen()
+}
 </script>
