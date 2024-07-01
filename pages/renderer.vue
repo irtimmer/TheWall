@@ -7,6 +7,12 @@
   </div>
 </template>
 
+<style>
+#wall {
+  cursor: none;
+}
+</style>
+
 <script setup lang="ts">
 import { useEventSource } from '@vueuse/core'
 import { useRoute } from 'vue-router'
