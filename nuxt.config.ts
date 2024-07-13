@@ -1,12 +1,21 @@
 import path from 'path';
+import fs from 'fs';
+
+const usersFile = path.resolve(__dirname, 'users.json');
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', 'nuxt-primevue'],
+  modules: ['@nuxtjs/tailwindcss', 'nuxt-primevue', '@kgierke/nuxt-basic-auth'],
   primevue: {
     importPT: { from: path.resolve(__dirname, './presets/aura/') },
     options: {
       unstyled: true
     }
+  },
+  basicAuth: fs.existsSync(usersFile) ? {
+    enabled: true,
+    users: JSON.parse(fs.readFileSync(usersFile, 'utf-8'))
+  } : {
+    enabled: false
   }
 })
