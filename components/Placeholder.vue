@@ -1,5 +1,5 @@
 <template>
-  <div @click="clickEvent" :style="style" class="p-2" :class="view.class">
+  <div @click="clickEvent" :style="style" class="p-2">
     <div :class="activeClass" class="card hover:border-2 bg-white shadow-md flex justify-center items-center h-screen">
       <Layout v-if="view.type === 'layout'" :data="view" />
       <p v-else class="text-center">{{ view.url }}</p>
@@ -83,7 +83,7 @@ const activeClass = computed(() => ({
 const snapWidth = computed(() => 100 / props.container.constraints.width)
 const snapHeight = computed(() => 100 / props.container.constraints.height)
 
-let adjust = ref(null);
+let adjust = ref<((dx: number, dy: number) => void) | null>(null);
 let initialX = ref(0);
 let initialY = ref(0);
 
@@ -92,10 +92,10 @@ let overlayHeight = ref(0);
 let overlayTop = ref(0);
 let overlayLeft = ref(0);
 
-const startMove = (event) => startAdjust(event, move)
-const startResize = (event) => startAdjust(event, resize)
+const startMove = (event: MouseEvent) => startAdjust(event, move)
+const startResize = (event: MouseEvent) => startAdjust(event, resize)
 
-const move = (dx, dy) => {
+const move = (dx: number, dy: number) => {
   let newTop = props.view.top + (dy / props.container.height) * 100
   let newLeft = props.view.left + (dx / props.container.width) * 100
   if (props.container.constraints) {
@@ -106,7 +106,7 @@ const move = (dx, dy) => {
   overlayLeft.value = Math.max(0, Math.min(newLeft, 100 - overlayWidth.value))
 }
 
-const resize = (dx, dy) => {
+const resize = (dx: number, dy: number) => {
   let newWidth = props.view.width + (dx / props.container.width) * 100
   let newHeight = props.view.height + (dy / props.container.height) * 100
   if (props.container.constraints) {
@@ -117,7 +117,7 @@ const resize = (dx, dy) => {
   overlayHeight.value = Math.max(0, Math.min(newHeight, 100 - overlayTop.value))
 }
 
-const startAdjust = (event, action) => {
+const startAdjust = (event: MouseEvent, action: (dx: number, dy: number) => void) => {
   initialX.value = event.clientX;
   initialY.value = event.clientY;
   overlayWidth.value = props.view.width;
@@ -130,13 +130,13 @@ const startAdjust = (event, action) => {
   event.preventDefault()
 }
 
-const moveAdjust = (event) => {
+const moveAdjust = (event: MouseEvent) => {
   const dx = event.clientX - initialX.value;
   const dy = event.clientY - initialY.value;
   adjust.value?.(dx, dy);
 }
 
-const stopAdjust = (event) => {
+const stopAdjust = (event: MouseEvent) => {
   props.view.top = overlayTop.value;
   props.view.left = overlayLeft.value;
   props.view.width = overlayWidth.value;
@@ -145,11 +145,11 @@ const stopAdjust = (event) => {
   window.removeEventListener('mouseup', stopAdjust);
   event.preventDefault()
   setTimeout(() => {
-    adjust.value = false
+    adjust.value = null
   }, 0)
 }
 
-const clickEvent = (event) => {
+const clickEvent = (event: MouseEvent) => {
   if (adjust.value)
     event.stopImmediatePropagation()
 }
