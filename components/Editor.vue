@@ -1,10 +1,18 @@
 <template>
   <div class="relative mt-6 flex-1 px-4 sm:px-6">
     <SelectButton v-model="internalView.type" :options="viewTypes" optionLabel="label" optionValue="value" class="mb-2" />
-    <div v-if="internalView.type === 'layout'" class="flex">
-      <InputText type="text" v-model="internalView.constraints.width" class="my-2 flex-1 w-0" />
-      <InputText type="text" v-model="internalView.constraints.height" class="my-2 flex-1 w-0" />
-    </div>
+    <template v-if="internalView.type === 'layout'">
+      <div class="flex">
+        <InputText type="text" v-model="internalView.constraints.width" class="my-2 flex-1 w-0" />
+        <InputText type="text" v-model="internalView.constraints.height" class="my-2 flex-1 w-0" />
+      </div>
+      <div class="flex flex-col my-2">
+        <Listbox v-model="selectedLayout" :options="layouts" class="w-full" />
+        <Button @click="loadLayout">Load</Button>
+        <InputText type="text" v-model="saveName" class="mt-2" placeholder="Enter save name" />
+        <Button @click="saveLayout">Save</Button>
+      </div>
+    </template>
     <InputText v-else type="text" v-model="internalView.url" class="my-2" />
     <Button @click="save">Save</Button>
   </div>
@@ -41,5 +49,24 @@ function save() {
       delete props.view[key]
 
   Object.assign(props.view, structuredClone(toRaw(internalView.value)))
+}
+
+const { data: layouts } = await useFetch('/api/layouts')
+const selectedLayout = ref('')
+const saveName = ref('')
+
+function loadLayout() {
+  useFetch(`/api/layout?id=${selectedLayout.value}`).then((layout) => {
+    console.log("Layout", layout.data.value)
+    props.view.constraints = layout.data.value.constraints
+    props.view.views = layout.data.value.views
+  })
+}
+
+function saveLayout() {
+  useFetch(`/api/layout?id=${saveName.value}`, {
+    method: 'PUT',
+    body: JSON.stringify(props.view),
+  })
 }
 </script>
