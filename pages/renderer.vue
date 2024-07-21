@@ -2,8 +2,8 @@
   <div id="wall" v-if="data">
     <View v-for="view in data.views" :view="view" />
   </div>
-  <div @click="openFullscreen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75" v-if="data">
-    <p class="text-white" @click="openFullscreen">Open in fullscreen</p>
+  <div @click="openFullscreen" class="fixed cursor-pointer inset-0 flex items-center justify-center bg-black bg-opacity-75" v-if="data">
+    <p class="text-white">Open in fullscreen</p>
   </div>
 </template>
 
