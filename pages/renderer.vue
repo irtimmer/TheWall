@@ -20,8 +20,8 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const data = ref([])
 
-if (import.meta.client)
-  window.wallRenderer()
+if (import.meta.client && window.wallRendererInit)
+  window.wallRendererInit()
 
 const id = route.query.id
 const { data: d } = useEventSource(`/api/events?id=${id}`)
