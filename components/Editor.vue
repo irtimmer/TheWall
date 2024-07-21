@@ -24,14 +24,14 @@ const viewTypes = [
   { label: 'Video', value: 'video' },
 ]
 
-watch(() => props.view.type, async (type, oldType) => {
+watch(() => internalView.value.type, async (type, oldType) => {
   if (type === 'layout') {
-    props.view.constraints = { width: 4, height: 4 }
-    delete props.view.url
+    internalView.value.constraints = { width: 4, height: 4 }
+    delete internalView.value.url
   } else if (oldType == 'layout') {
-    props.view.url = 'about:blank'
-    delete props.view.constraints
-    delete props.view.views
+    internalView.value.url = 'about:blank'
+    delete internalView.value.constraints
+    delete internalView.value.views
   }
 })
 
