@@ -14,19 +14,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 
-const container = ref(null)
-const containerDescr = ref({
-  width: 0,
-  height: 0
-})
-
-useResizeObserver(container, (entries) => {
-  const { width, height } = entries[0].contentRect
-  containerDescr.value = {
-    width, height
-  }
-})
-
 const route = useRoute()
 const id = route.query.id
 const { data } = await useFetch(`/api/state?id=${id}`)
