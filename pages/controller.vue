@@ -1,3 +1,6 @@
+<!-- Copyright (C) 2024 Iwan Timmer -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+
 <template>
   <div class="h-screen overflow-hidden">
     <Layout v-if="data" @click="activeView = data" :data="data" v-model:active="activeView"/>

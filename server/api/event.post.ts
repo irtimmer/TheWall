@@ -1,3 +1,6 @@
+// Copyright (C) 2024 Iwan Timmer
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { getReceiver } from "../utils/receivers"
 import { registerState } from "../utils/states";
 

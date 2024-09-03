@@ -35,3 +35,10 @@ You will be asked to start fullscreen mode by clicking on the screen.
 The control computer can access the control panel by visiting `http://SERVER_IP:3000/control?id=WALL_ID`.
 
 Where `SERVER_IP` is the IP address of the server running the application, and `WALL_ID` is the ID of the wall you want to access.
+
+## Copyright and License
+Copyright 2024 Iwan Timmer.
+Distributed under the GNU AGPL v3.
+For full terms see the [COPYING](COPYING) file
+
+Available under alternative licensing terms upon request.

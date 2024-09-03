@@ -1,3 +1,6 @@
+<!-- Copyright (C) 2024 Iwan Timmer -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+
 <template>
   <div class="relative mt-6 flex-1 px-4 sm:px-6">
     <SelectButton v-model="internalView.type" :options="viewTypes" optionLabel="label" optionValue="value" class="mb-2" />

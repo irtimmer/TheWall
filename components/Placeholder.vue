@@ -1,3 +1,6 @@
+<!-- Copyright (C) 2024 Iwan Timmer -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+
 <template>
   <div @click="clickEvent" :style="style" class="p-2">
     <div :class="activeClass" class="card hover:border-2 bg-white shadow-md flex justify-center items-center h-screen">

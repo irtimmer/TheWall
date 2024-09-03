@@ -1,3 +1,6 @@
+<!-- Copyright (C) 2024 Iwan Timmer -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+
 <template>
   <div ref="container" class="layout">
     <template v-for="view in data.views">

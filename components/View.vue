@@ -1,3 +1,6 @@
+<!-- Copyright (C) 2024 Iwan Timmer -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+
 <template>
   <div :style="style">
     <iframe v-if="view.type == 'iframe'" :src="view.url" />

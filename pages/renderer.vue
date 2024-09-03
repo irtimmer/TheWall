@@ -1,6 +1,12 @@
+<!-- Copyright (C) 2024 Iwan Timmer -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+
 <template>
   <div id="wall" v-if="data">
     <View v-for="view in data.views" :view="view" />
+    <p id="copyright-notice" class="fixed bottom-2 right-2 bg-black bg-opacity-50 text-white p-2 rounded text-base">
+      TheWall - &copy; 2024 Iwan Timmer
+    </p>
   </div>
   <div @click="openFullscreen" class="fixed cursor-pointer inset-0 flex items-center justify-center bg-black bg-opacity-75" v-if="data">
     <p class="text-white">Open in fullscreen</p>
