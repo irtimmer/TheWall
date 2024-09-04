@@ -44,9 +44,11 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 20px;
-  height: 20px;
-  background: gray;
+  width: 0;
+  height: 0;
+  border: 10px solid gray;
+  border-left-color: transparent;
+  border-top-color: transparent;
   cursor: se-resize;
 }
 </style>
