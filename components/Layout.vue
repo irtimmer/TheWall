@@ -6,7 +6,10 @@
     <template v-for="view in data.views">
       <Placeholder @click.stop="active = view" @close="removeView(view)" :active="view === active" :view="view" :container="containerDescr" />
     </template>
-    <button @click.stop="addView()" class="absolute bottom-0 right-0 mb-4 mr-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">+</button>
+    <div class="absolute bottom-0 left-0 flex flex-col">
+      <button v-if="data.type == 'root'" @click.stop="active = data" class="mb-4 ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">C</button>
+      <button @click.stop="addView()" class="mb-4 ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">+</button>
+    </div>
   </div>
 </template>
 
@@ -25,6 +28,7 @@ import { useResizeObserver } from '@vueuse/core';
 const active = defineModel<View>("active")
 const props = defineProps<{
   data: {
+    type: "layout" | "root"
     views: View[]
     constraints: {
       width: number

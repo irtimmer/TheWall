@@ -3,8 +3,8 @@
 
 <template>
   <div class="relative mt-6 flex-1 px-4 sm:px-6">
-    <SelectButton v-model="internalView.type" :options="viewTypes" optionLabel="label" optionValue="value" class="mb-2" />
-    <template v-if="internalView.type === 'layout'">
+    <SelectButton v-if="internalView.type != 'root'" v-model="internalView.type" :options="viewTypes" optionLabel="label" optionValue="value" class="mb-2" />
+    <template v-if="internalView.type === 'layout' || internalView.type === 'root'">
       <div class="flex">
         <InputText type="text" v-model="internalView.constraints.width" class="my-2 flex-1 w-0" />
         <InputText type="text" v-model="internalView.constraints.height" class="my-2 flex-1 w-0" />

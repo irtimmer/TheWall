@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 type LayoutView = {
-  type: "layout"
+  type: "layout" | "root"
   views: View[]
   constraints: {
     width: number
