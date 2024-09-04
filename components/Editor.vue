@@ -11,9 +11,9 @@
       </div>
       <div class="flex flex-col my-2">
         <Listbox v-model="selectedLayout" :options="layouts" class="w-full" />
-        <Button @click="loadLayout">Load</Button>
+        <Button @click="loadLayout" :disabled="!selectedLayout">Load</Button>
         <InputText type="text" v-model="saveName" class="mt-2" placeholder="Enter save name" />
-        <Button @click="saveLayout">Save</Button>
+        <Button @click="saveLayout" :disabled="!saveName">Save</Button>
       </div>
     </template>
     <InputText v-else type="text" v-model="internalView.url" class="my-2" />
