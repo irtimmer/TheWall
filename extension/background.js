@@ -10,6 +10,12 @@ const onHeadersReceived = req => {
 
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.action == 'rendererInit') {
+    let trustedOrigin = (await browser.storage.local.get("domain")).domain || "http://localhost:3000"
+    if (sender.origin != trustedOrigin) {
+      browser.runtime.openOptionsPage()
+      sendResponse({ message: 'untrusted' })
+    }
+
     browser.webRequest.onHeadersReceived.removeListener(onHeadersReceived)
     browser.webRequest.onHeadersReceived.addListener(
       onHeadersReceived, {
