@@ -2,5 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 exportFunction(function () {
-  browser.runtime.sendMessage({})
+  browser.runtime.sendMessage({
+    action: "rendererInit"
+  })
 }, window, { defineAs: "wallRendererInit" })

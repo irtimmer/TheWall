@@ -3,18 +3,22 @@
 
 const REMOVE_HEADERS = ['x-frame-options', 'frame-options', 'content-security-policy']
 
-browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  browser.webRequest.onHeadersReceived.addListener(
-    req => {
-      console.log("Request", req);
-      let responseHeaders = req.responseHeaders.filter(header => !REMOVE_HEADERS.includes(header.name.toLowerCase()))
-      return { responseHeaders };
-    }, {
-      urls: [ '<all_urls>' ],
-      types: [ 'sub_frame' ],
-      tabId: sender.tab.id
-    },
-    ['blocking', 'responseHeaders']
-  );
-  sendResponse({});
+const onHeadersReceived = req => {
+  let responseHeaders = req.responseHeaders.filter(header => !REMOVE_HEADERS.includes(header.name.toLowerCase()))
+  return { responseHeaders }
+}
+
+browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+  if (message.action == 'rendererInit') {
+    browser.webRequest.onHeadersReceived.removeListener(onHeadersReceived)
+    browser.webRequest.onHeadersReceived.addListener(
+      onHeadersReceived, {
+        urls: [ '<all_urls>' ],
+        types: [ 'sub_frame' ],
+        tabId: message.tabId
+      },
+      ['blocking', 'responseHeaders']
+    )
+    sendResponse({ message: 'activated' })
+  }
 })
