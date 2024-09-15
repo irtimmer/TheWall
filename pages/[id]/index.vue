@@ -29,7 +29,7 @@ const data = ref([])
 if (import.meta.client && window.wallRendererInit)
   window.wallRendererInit()
 
-const id = route.query.id
+const id = route.params.id
 const { data: d } = useEventSource(`/api/events?id=${id}`)
 watch(d, d => {
   if (!d) return

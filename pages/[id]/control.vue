@@ -18,7 +18,7 @@
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const id = route.query.id
+const id = route.params.id
 const { data } = await useFetch(`/api/state?id=${id}`)
 const activeView = ref(null)
 

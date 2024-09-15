@@ -29,10 +29,10 @@ To use unsigned extensions in the Developer Edition of Firefox, you need to set 
 Afterwards you can create a zip file of the extension folder and change the extension's file extension to `.xpi`.
 This extension can then be installed by dragging the file into the Firefox window.
 
-The wall computer can access the rendered wall by visiting `http://SERVER_IP:3000/renderer?id=WALL_ID`.
+The wall computer can access the rendered wall by visiting `http://SERVER_IP:3000/WALL_ID`.
 You will be asked to start fullscreen mode by clicking on the screen.
 
-The control computer can access the control panel by visiting `http://SERVER_IP:3000/control?id=WALL_ID`.
+The control computer can access the control panel by visiting `http://SERVER_IP:3000/WALL_ID/control`.
 
 Where `SERVER_IP` is the IP address of the server running the application, and `WALL_ID` is the ID of the wall you want to access.
 
