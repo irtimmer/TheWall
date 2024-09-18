@@ -6,3 +6,13 @@ exportFunction(function () {
     action: "rendererInit"
   })
 }, window, { defineAs: "wallRendererInit" })
+
+exportFunction(function (iframe, css, oldCss) {
+  const frameId = browser.runtime.getFrameId(iframe)
+  browser.runtime.sendMessage({
+    action: "injectCss",
+    frameId,
+    css,
+    oldCss
+  })
+}, window, { defineAs: "wallInjectCss" })
