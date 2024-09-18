@@ -3,7 +3,7 @@
 
 <template>
   <div :style="style">
-    <iframe v-if="view.type == 'iframe'" :src="view.url" />
+    <iframe v-if="view.type == 'iframe'" @load="frameLoaded" :src="view.url" ref="iframeView" />
     <img v-else-if="view.type == 'img'" :src="view.url" />
     <video v-else-if="view.type == 'video'" :src="view.url" autoplay />
     <div v-else-if="view.type == 'layout'" />
@@ -27,5 +27,15 @@ const props = defineProps<{
   view: View
 }>()
 
-const style = viewStyle(toRef(() => props.view))
+const iframeView = ref<HTMLIFrameElement | null>(null)
+
+watch(() => props.view.css, (css, oldCss) => {
+  if (window.wallInjectCss && iframeView.value && css)
+    window.wallInjectCss(iframeView.value, css, oldCss)
+})
+
+function frameLoaded() {
+  if (window.wallInjectCss && iframeView.value && props.view.css)
+    window.wallInjectCss(iframeView.value, props.view.css)
+}
 </script>
