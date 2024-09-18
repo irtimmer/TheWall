@@ -16,6 +16,7 @@ type LayoutView = {
 
 type ResourceView = {
   type: "iframe" | "video" | "img"
+  css: string
   url: string
   top: number
   left: number

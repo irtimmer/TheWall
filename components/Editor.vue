@@ -17,6 +17,14 @@
       </div>
     </template>
     <InputText v-else type="text" v-model="internalView.url" class="my-2" />
+    <template v-if="internalView.type === 'iframe'">
+      <Button @click="editCss = true">Edit CSS</Button>
+      <Dialog v-model:visible="editCss" header="Edit CSS">
+        <div class="flex flex-col">
+          <Textarea type="text" v-model="internalView.css" class="my-2" rows="20" />
+        </div>
+      </Dialog>
+    </template>
     <Button @click="save">Save</Button>
   </div>
 </template>
@@ -27,6 +35,7 @@ const props = defineProps<{
 }>()
 
 const internalView = ref(structuredClone(toRaw(props.view)))
+const editCss = ref(false)
 
 const viewTypes = [
   { label: 'Layout', value: 'layout'},
