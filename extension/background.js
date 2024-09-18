@@ -7,6 +7,12 @@ let trustedOrigin = null
 
 const onHeadersReceived = req => {
   let responseHeaders = req.responseHeaders.filter(header => !REMOVE_HEADERS.includes(header.name.toLowerCase()))
+  for (let header of responseHeaders) {
+    // Replace SameSite=Lax and SameSite=Strict with SameSite=None to allow cross-origin cookies
+    if (header.name.toLowerCase() === 'set-cookie') {
+      header.value = header.value.replace(/SameSite=Lax|SameSite=Strict/i, 'SameSite=None')
+    }
+  }
   return { responseHeaders }
 }
 
