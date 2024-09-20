@@ -9,6 +9,11 @@ const usersFile = path.resolve(__dirname, 'users.json');
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss', 'nuxt-primevue', '@kgierke/nuxt-basic-auth'],
+  app: {
+    head: {
+      title: 'TheWall'
+    }
+  },
   primevue: {
     importPT: { from: path.resolve(__dirname, './presets/aura/') },
     options: {
