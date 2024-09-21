@@ -17,6 +17,7 @@ type LayoutView = {
 type ResourceView = {
   type: "iframe" | "video" | "img"
   css: string
+  script: string
   url: string
   top: number
   left: number
@@ -47,6 +48,7 @@ export function addView(layout: LayoutView) {
     left: 10,
     height: 25,
     width: 25,
-    css: ""
+    css: "",
+    script: ""
   })
 }

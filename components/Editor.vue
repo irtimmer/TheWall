@@ -19,9 +19,15 @@
     <InputText v-else type="text" v-model="internalView.url" class="my-2" />
     <template v-if="internalView.type === 'iframe'">
       <Button @click="editCss = true">Edit CSS</Button>
+      <Button @click="editScript = true">Edit Script</Button>
       <Dialog v-model:visible="editCss" header="Edit CSS">
         <div class="flex flex-col">
           <Textarea type="text" v-model="internalView.css" class="my-2" rows="20" />
+        </div>
+      </Dialog>
+      <Dialog v-model:visible="editScript" header="Edit Script">
+        <div class="flex flex-col">
+          <Textarea type="text" v-model="internalView.script" class="my-2" rows="20" />
         </div>
       </Dialog>
     </template>
@@ -36,6 +42,7 @@ const props = defineProps<{
 
 const internalView = ref(structuredClone(toRaw(props.view)))
 const editCss = ref(false)
+const editScript = ref(false)
 
 const viewTypes = [
   { label: 'Layout', value: 'layout'},
