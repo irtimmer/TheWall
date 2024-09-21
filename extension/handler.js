@@ -16,3 +16,12 @@ exportFunction(function (iframe, css, oldCss) {
     oldCss
   })
 }, window, { defineAs: "wallInjectCss" })
+
+exportFunction(function (iframe, script) {
+  const frameId = browser.runtime.getFrameId(iframe)
+  browser.runtime.sendMessage({
+    action: "injectScript",
+    frameId,
+    script
+  })
+}, window, { defineAs: "wallInjectScript" })

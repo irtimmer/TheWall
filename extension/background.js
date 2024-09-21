@@ -42,5 +42,9 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
     browser.tabs.insertCSS(sender.tab.id, { code: message.css, frameId: message.frameId })
     sendResponse({ message: 'ok' })
+  } else if (message.action == 'injectScript') {
+    console.log('injectScript', message.script, { tabId: sender.tab.id, frameIds: message.frameId })
+    browser.tabs.executeScript(sender.tab.id, { code: message.script, frameId: message.frameId })
+    sendResponse({ message: 'ok' })
   }
 })
