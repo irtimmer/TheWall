@@ -35,3 +35,18 @@ export const viewStyle = (view: Ref<View>) => computed(() => {
     width: view.value.width + '%',
   }
 })
+
+export function addView(layout: LayoutView) {
+  if (!layout.views)
+    layout.views = []
+
+  layout.views.push({
+    type: 'iframe',
+    url: 'about:blank',
+    top: 10,
+    left: 10,
+    height: 25,
+    width: 25,
+    css: ""
+  })
+}

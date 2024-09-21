@@ -3,7 +3,7 @@
 
 <template>
   <div class="h-screen overflow-hidden">
-    <Layout v-if="data" @click="activeView = data" :data="data" v-model:active="activeView"/>
+    <Layout v-if="data" :data="data" root v-model:active="activeView"/>
     <Sidebar v-model:visible="activeView" position="right">
       <Editor v-if="activeView" :webrtc="webrtc" :view="activeView"/>
     </Sidebar>

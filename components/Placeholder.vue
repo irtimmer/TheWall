@@ -2,11 +2,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 
 <template>
-  <div @click="clickEvent" :style="style" class="p-2">
-    <div :class="activeClass" class="card hover:border-2 bg-white shadow-md flex justify-center items-center h-screen">
+  <div :style="style" class="p-2">
+    <div :class="activeClass" @click="activate" class="card hover:border-2 bg-white shadow-md flex justify-center items-center h-screen">
       <Layout v-if="view.type === 'layout'" :data="view" />
       <p v-else class="text-center">{{ view.url }}</p>
       <div class="title-bar flex justify-end items-center absolute top-0 right-0" @mousedown="startMove">
+        <button @click.stop="addView(view)" class="mr-2 text-white z-10">+</button>
         <button @click="$emit('close')" class="mr-2 text-white z-10">X</button>
       </div>
       <div class="resize-handle" @mousedown="startResize"></div>
@@ -54,8 +55,8 @@
 </style>
 
 <script setup lang="ts">
+const active = defineModel<View>("active")
 const props = defineProps<{
-  active: boolean
   view: View
   container: {
    width: number
@@ -78,11 +79,13 @@ const overlayStyle = computed(() => ({
   left: overlayLeft.value - props.view.left + 'cqw'
 }))
 
+const activated = computed(() => active.value === props.view)
+
 const activeClass = computed(() => ({
-  'cursor-pointer': !props.active,
-  'border-2': props.active,
-  'hover:border-gray-200': !props.active,
-  'border-gray-500': props.active,
+  'cursor-pointer': !activated.value,
+  'hover:border-gray-200': !activated.value,
+  'border-2': activated.value,
+  'border-gray-500': activated.value,
 }))
 
 const snapWidth = computed(() => 100 / props.container.constraints.width)
@@ -154,8 +157,10 @@ const stopAdjust = (event: MouseEvent) => {
   }, 0)
 }
 
-const clickEvent = (event: MouseEvent) => {
-  if (adjust.value)
-    event.stopImmediatePropagation()
+const activate = (event: MouseEvent) => {
+  if (preventClick)
+    event.stopPropagation()
+  else
+    active.value = props.view
 }
 </script>
