@@ -6,9 +6,9 @@
     <template v-for="view in data.views" :key="view.id">
       <Placeholder @close="removeView(view)" v-model:active="active" :view="view" :container="containerDescr" />
     </template>
-    <div v-if="root" class="absolute bottom-0 left-0 flex flex-col">
-      <button v-if="data.type == 'root'" @click.stop="active = data" class="mb-4 ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">C</button>
-      <button @click.stop="addView(data)" class="mb-4 ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">+</button>
+    <div v-if="root" class="absolute bottom-0 left-0 flex gap-3 m-3">
+      <button @click.stop="addView(data)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">+</button>
+      <button @click.stop="active = data" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">C</button>
     </div>
   </div>
 </template>

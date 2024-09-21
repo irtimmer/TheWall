@@ -3,12 +3,15 @@
 
 <template>
   <div :style="style" class="p-2">
-    <div :class="activeClass" @click="activate" class="card hover:border-2 bg-white shadow-md flex justify-center items-center h-screen">
-      <Layout v-if="view.type === 'layout'" :data="view" />
-      <p v-else class="text-center">{{ view.url }}</p>
-      <div class="title-bar flex justify-end items-center absolute top-0 right-0" @mousedown="startMove">
-        <button @click.stop="addView(view)" class="mr-2 text-white z-10">+</button>
-        <button @click="$emit('close')" class="mr-2 text-white z-10">X</button>
+    <div :class="activeClass" @click="activate" class="card border-white border-2 bg-white shadow-md flex flex-col">
+      <div class="title-bar w-full flex justify-end items-center" @mousedown.stop.prevent="startMove">
+        <button @mousedown.stop @click.stop="addView(view)" v-if="view.type === 'layout'" class="mr-2 text-white z-10">+</button>
+        <button @mousedown.stop @click.stop="$emit('close')" class="mr-2 text-white z-10">X</button>
+      </div>
+      <div class="grow flex flex-col justify-center items-center w-full">
+        <Layout v-if="view.type === 'layout'" :data="view" v-model:active="active" />
+        <ListLayout v-else-if="view.type === 'list'" :data="view" v-model:active="active" />
+        <p v-else class="text-center">{{ view.url }}</p>
       </div>
       <div class="resize-handle" @mousedown="startResize"></div>
     </div>
@@ -32,10 +35,6 @@
 }
 
 .title-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 20px;
   background: gray;
   cursor: move;
@@ -92,6 +91,7 @@ const snapWidth = computed(() => 100 / props.container.constraints.width)
 const snapHeight = computed(() => 100 / props.container.constraints.height)
 
 let adjust = ref<((dx: number, dy: number) => void) | null>(null);
+let preventClick = false
 let initialX = ref(0);
 let initialY = ref(0);
 
@@ -133,6 +133,7 @@ const startAdjust = (event: MouseEvent, action: (dx: number, dy: number) => void
   overlayTop.value = props.view.top;
   overlayLeft.value = props.view.left;
   adjust.value = action;
+  preventClick = true
   window.addEventListener('mousemove', moveAdjust);
   window.addEventListener('mouseup', stopAdjust);
   event.preventDefault()
@@ -151,10 +152,9 @@ const stopAdjust = (event: MouseEvent) => {
   props.view.height = overlayHeight.value;
   window.removeEventListener('mousemove', moveAdjust);
   window.removeEventListener('mouseup', stopAdjust);
-  event.preventDefault()
-  setTimeout(() => {
-    adjust.value = null
-  }, 0)
+  event.stopPropagation()
+  adjust.value = null
+  setTimeout(() => preventClick = false, 500)
 }
 
 const activate = (event: MouseEvent) => {
