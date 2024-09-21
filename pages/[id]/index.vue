@@ -3,7 +3,7 @@
 
 <template>
   <div id="wall" v-if="data">
-    <View v-for="view in data.views" :view="view" />
+    <View v-for="view in data.views" :view="view" :key="view.id" />
     <p id="copyright-notice" class="fixed bottom-2 right-2 bg-black bg-opacity-50 text-white p-2 rounded text-base">
       TheWall - &copy; 2024 Iwan Timmer
     </p>

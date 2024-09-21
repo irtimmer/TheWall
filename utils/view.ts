@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 type LayoutView = {
+  id: string
   type: "layout" | "root"
   views: View[]
   constraints: {
@@ -15,6 +16,7 @@ type LayoutView = {
 }
 
 type ResourceView = {
+  id: string
   type: "iframe" | "video" | "img"
   css: string
   script: string
@@ -42,6 +44,7 @@ export function addView(layout: LayoutView) {
     layout.views = []
 
   layout.views.push({
+    id: crypto.randomUUID(),
     type: 'iframe',
     url: 'about:blank',
     top: 10,

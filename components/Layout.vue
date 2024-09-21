@@ -3,7 +3,7 @@
 
 <template>
   <div ref="container" class="layout">
-    <template v-for="view in data.views">
+    <template v-for="view in data.views" :key="view.id">
       <Placeholder @close="removeView(view)" v-model:active="active" :view="view" :container="containerDescr" />
     </template>
     <div v-if="root" class="absolute bottom-0 left-0 flex flex-col">
