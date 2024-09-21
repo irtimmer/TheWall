@@ -34,8 +34,15 @@ watch(() => props.view.css, (css, oldCss) => {
     window.wallInjectCss(iframeView.value, css, oldCss)
 })
 
+watch(() => props.view.script, script => {
+  if (window.wallInjectScript && iframeView.value && script)
+    window.wallInjectScript(iframeView.value, script)
+})
+
 function frameLoaded() {
   if (window.wallInjectCss && iframeView.value && props.view.css)
     window.wallInjectCss(iframeView.value, props.view.css)
+  if (window.wallInjectScript && iframeView && props.view.script)
+    window.wallInjectScript(iframeView.value, props.view.script)
 }
 </script>
