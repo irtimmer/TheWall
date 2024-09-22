@@ -4,6 +4,9 @@
   "version": "0.1",
   "description": "Wall Screen Controller",
   "permissions": ["<all_urls>", "webRequest", "webNavigation", "webRequestBlocking", "storage"],
+  "icons": {
+    "48": "icon.svg"
+  },
   "background": {
     "scripts": ["background.js"]
   },
