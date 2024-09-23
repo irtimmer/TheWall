@@ -11,7 +11,10 @@
       <div class="grow flex flex-col justify-center items-center w-full">
         <Layout v-if="view.type === 'layout'" :data="view" v-model:active="active" />
         <ListLayout v-else-if="view.type === 'list'" :data="view" v-model:active="active" />
-        <p v-else class="text-center">{{ view.url }}</p>
+        <p v-else class="text-center">
+          <img :src="favicon" class="w-4 h-4 inline" />
+          {{ view.url }}
+        </p>
       </div>
       <div class="resize-handle" @mousedown="startResize"></div>
     </div>
@@ -78,6 +81,10 @@ const overlayStyle = computed(() => ({
   left: overlayLeft.value - props.view.left + 'cqw'
 }))
 
+const favicon = computed(() => {
+  const url = new URL(props.view.url)
+  return `https://www.google.com/s2/favicons?domain=${url.host}`
+})
 const activated = computed(() => active.value === props.view)
 
 const activeClass = computed(() => ({
