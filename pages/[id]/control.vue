@@ -4,10 +4,10 @@
 <template>
   <div class="h-screen overflow-hidden">
     <Layout v-if="data" :data="data" root v-model:active="activeView"/>
-    <Sidebar v-model:visible="activeView" position="right">
+    <Sidebar v-model:visible="sidebarVisible" position="right">
       <Editor v-if="activeView" :webrtc="webrtc" :view="activeView"/>
     </Sidebar>
-</div>
+  </div>
 </template>
 
 <style>
@@ -20,7 +20,11 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const id = route.params.id
 const { data } = await useFetch(`/api/state?id=${id}`)
-const activeView = ref(null)
+const activeView = ref<View | null>(null)
+const sidebarVisible = computed<boolean>({
+  get: () => !!activeView.value,
+  set: v => activeView.value = v ? activeView.value : null
+})
 
 watch(data, data => {
   useFetch(`/api/event?id=${id}`, {
