@@ -28,14 +28,7 @@ import { useResizeObserver } from '@vueuse/core';
 const active = defineModel<View>("active")
 const props = defineProps<{
   root?: boolean
-  data: {
-    type: "layout" | "root"
-    views: View[]
-    constraints: {
-      width: number
-      height: number
-    }
-  }
+  data: LayoutView
 }>()
 
 const container = ref(null)
