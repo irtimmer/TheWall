@@ -17,6 +17,9 @@
 <style>
 #wall {
   cursor: none;
+  background-color: black;
+  width: 100vw;
+  height: 100vh;
 }
 </style>
 
