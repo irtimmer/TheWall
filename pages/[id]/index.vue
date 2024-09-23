@@ -8,8 +8,9 @@
       TheWall - &copy; 2024 Iwan Timmer
     </p>
   </div>
-  <div @click="openFullscreen" class="fixed cursor-pointer inset-0 flex items-center justify-center bg-black bg-opacity-75" v-if="data">
+  <div @click="openFullscreen" class="fixed cursor-pointer inset-0 flex flex-col items-center justify-center bg-black bg-opacity-75" v-if="!windowed">
     <p class="text-white">Open in fullscreen</p>
+    <a @click.stop="windowed = true" class="text-blue-800">or use windowed</a>
   </div>
 </template>
 
@@ -25,6 +26,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const data = ref([])
+const windowed = ref(false)
 
 if (import.meta.client && window.wallRendererInit)
   window.wallRendererInit()
