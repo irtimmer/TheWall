@@ -3,14 +3,12 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("form").addEventListener("submit", (e) => {
-    console.log("Trust set", document.querySelector("#domain").value)
     browser.storage.local.set({
       domain: document.querySelector("#domain").value
     })
   })
 
   browser.storage.local.get("domain").then((res) => {
-    console.log("Trust get", res.domain)
     document.querySelector("#domain").value = res.domain || "http://localhost:3000"
   }, (err) => {
     console.error(`Error: ${err}`)
