@@ -12,7 +12,7 @@
         <Layout v-if="view.type === 'layout'" :data="view" v-model:active="active" />
         <ListLayout v-else-if="view.type === 'list'" :data="view" v-model:active="active" />
         <p v-else class="text-center">
-          <img :src="favicon" class="w-4 h-4 inline" />
+          <img v-if="favicon" :src="favicon" class="w-4 h-4 inline" />
           {{ view.url }}
         </p>
       </div>
@@ -83,6 +83,9 @@ const overlayStyle = computed(() => ({
 
 const favicon = computed(() => {
   const url = new URL(props.view.url)
+  if (!url.host)
+    return null
+
   return `https://www.google.com/s2/favicons?domain=${url.host}`
 })
 const activated = computed(() => active.value === props.view)
