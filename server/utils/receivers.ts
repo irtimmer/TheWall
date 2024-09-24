@@ -1,13 +1,22 @@
 // Copyright (C) 2024 Iwan Timmer
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-const receivers: Record<string, (data: any) => Promise<void>> = {}
+type EventStream = any
 
-export function registerReceiver(name: string, receiver: (data: any) => Promise<void>) {
+const receivers: Record<string, EventStream> = {}
+
+export function registerReceiver(name: string, receiver: EventStream) {
+  if (receivers[name])
+    receivers[name].close()
+
   receivers[name] = receiver
 }
 
-export function unregisterReceiver(name: string) {
+export function unregisterReceiver(name: string, receiver: EventStream) {
+  // Don't unregister if the receiver has changed
+  if (receivers[name] !== receiver)
+    return
+
   delete receivers[name]
 }
 

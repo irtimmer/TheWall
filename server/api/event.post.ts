@@ -16,5 +16,5 @@ export default defineEventHandler(async (event) => {
   if (body.action === 'setup')
     registerState(id.toString(), body.data)
 
-  await getReceiver(id.toString())?.(body)
+  await getReceiver(id.toString())?.push(JSON.stringify(body))
 })
