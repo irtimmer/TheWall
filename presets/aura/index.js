@@ -12,6 +12,7 @@ export default {
     //forms
     inputtext,
     selectbutton,
+    listbox,
     textarea,
 
     //buttons
