@@ -1,7 +1,9 @@
 # TheWall
 
+![Screenshot](docs/images/screenshot.png)
+
 TheWall is a web application for managing a wall of screens.
-It can show web pages, images, and videos on multiple screens at the same time.
+It can show multiple web pages, images, and videos on a large or wall of screens.
 Layouts can be created and changed on the fly using a drag-and-drop web interface.
 
 The output is displayed by Firefox running in fullscreen mode.
