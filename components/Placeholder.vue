@@ -3,7 +3,7 @@
 
 <template>
   <div :style="style" class="p-2">
-    <div :class="activeClass" @click="activate" class="card border-white border-2 bg-white shadow-md flex flex-col">
+    <div :class="activeClass" @click.stop="activate" class="card border-white border-2 bg-white shadow-md flex flex-col">
       <div class="title-bar w-full flex justify-end items-center" @mousedown.stop.prevent="startMove">
         <button @mousedown.stop @click.stop="addView(view)" v-if="view.type === 'layout'" class="mr-2 text-white z-10">+</button>
         <button @mousedown.stop @click.stop="$emit('close')" class="mr-2 text-white z-10">X</button>
