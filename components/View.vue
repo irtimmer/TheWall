@@ -3,10 +3,11 @@
 
 <template>
   <div @transitionend="endTransition" :style="style">
-    <iframe v-if="view.type == 'iframe'" @load="frameLoaded" :src="view.url" ref="iframeView" />
-    <img v-else-if="view.type == 'img'" :src="view.url" />
-    <video v-else-if="view.type == 'video'" :src="view.url" autoplay />
-    <div v-else-if="view.type == 'layout'" />
+    <Transition name="fade">
+      <iframe v-if="view.type == 'iframe'" @load="frameLoaded" :src="view.url" ref="iframeView" :key="view.url" />
+      <img v-else-if="view.type == 'img'" :src="view.url" :key="view.url" />
+      <video v-else-if="view.type == 'video'" :src="view.url" ref="videoView" autoplay :key="view.url" />
+    </Transition>
   </div>
 </template>
 
@@ -16,7 +17,7 @@ video {
 }
 
 div > * {
-  position: relative;
+  position: absolute;
   height: 100%;
   width: 100%;
 }
