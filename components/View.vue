@@ -4,7 +4,7 @@
 <template>
   <div @transitionend="endTransition" :style="style">
     <Transition name="fade">
-      <iframe v-if="view.type == 'iframe'" @load="frameLoaded" :src="view.url" ref="iframeView" :key="view.url" />
+      <iframe v-if="view.type == 'iframe'" @load="frameLoaded" :src="view.url" sandbox="allow-scripts allow-same-origin" ref="iframeView" :key="view.url" />
       <img v-else-if="view.type == 'img'" :src="view.url" :key="view.url" />
       <video v-else-if="view.type == 'video'" :src="view.url" ref="videoView" autoplay :key="view.url" />
     </Transition>
