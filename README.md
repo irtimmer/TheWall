@@ -32,7 +32,9 @@ Afterwards you can create a zip file of the extension folder and change the exte
 This extension can then be installed by dragging the file into the Firefox window.
 
 The wall computer can access the rendered wall by visiting `http://SERVER_IP:3000/WALL_ID`.
-You will be asked to start fullscreen mode by clicking on the screen.
+You can make TheWall fullscreen by pressing `F11`.
+To allow TheWall to run fullscreen by default, you can set the `full-screen-api.allow-trusted-requests-only` preference to `false` in `about:config`.
+This will allow TheWall (and any other website) to request fullscreen mode without user interaction.
 
 If you installed the extension, you will be redirected to the extension options page if TheWall is running on a different origin than http://localhost:3000.
 As a security measure, you need to set the origin of the server on the options page.

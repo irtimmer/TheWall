@@ -12,10 +12,6 @@
       TheWall - &copy; 2024 Iwan Timmer
     </p>
   </div>
-  <div @click="openFullscreen" class="fixed cursor-pointer inset-0 flex flex-col items-center justify-center bg-black bg-opacity-75" v-if="!windowed">
-    <p class="text-white">Open in fullscreen</p>
-    <a @click.stop="windowed = true" class="text-blue-800">or use windowed</a>
-  </div>
 </template>
 
 <style>
@@ -67,7 +63,7 @@ function flattenViews(views: View[], parent?: View): View[] {
 
 const views = computed(() => flattenViews(data.value.views))
 
-function openFullscreen() {
+onMounted(() => {
   document.getElementById("wall")?.requestFullscreen()
-}
+})
 </script>
