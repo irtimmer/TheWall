@@ -3,7 +3,11 @@
 
 <template>
   <div id="wall" v-if="data">
-    <View v-for="view in views" :view="view" :key="view.id" />
+    <TransitionGroup name="fade">
+      <div v-for="view in views" :key="view.id">
+        <View :view="view" />
+      </div>
+    </TransitionGroup>
     <p id="copyright-notice" class="fixed bottom-2 right-2 bg-black bg-opacity-50 text-white p-2 rounded text-base">
       TheWall - &copy; 2024 Iwan Timmer
     </p>
@@ -15,6 +19,8 @@
 </template>
 
 <style>
+@import url("~/assets/css/transitions.css");
+
 #wall {
   cursor: none;
   background-color: black;
