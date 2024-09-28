@@ -11,15 +11,15 @@
       </div>
       <div class="flex flex-col my-2">
         <Listbox v-model="selectedLayout" :options="layouts" class="w-full" />
-        <Button @click="loadLayout" :disabled="!selectedLayout">Load</Button>
+        <Button @click="loadLayout" :disabled="!selectedLayout" label="Load" />
         <InputText type="text" v-model="saveName" class="mt-2" placeholder="Enter save name" />
-        <Button @click="saveLayout" :disabled="!saveName">Save</Button>
+        <Button @click="saveLayout" :disabled="!saveName" label="Save" />
       </div>
     </template>
     <InputText v-else type="text" v-model="internalView.url" class="my-2" />
     <template v-if="internalView.type === 'iframe'">
-      <Button @click="editCss = true">Edit CSS</Button>
-      <Button @click="editScript = true">Edit Script</Button>
+      <Button @click="editCss = true" label="Edit CSS" />
+      <Button @click="editScript = true" label="Edit Script" />
       <Dialog v-model:visible="editCss" header="Edit CSS">
         <div class="flex flex-col">
           <Textarea type="text" v-model="internalView.css" class="my-2" rows="20" />
@@ -31,7 +31,7 @@
         </div>
       </Dialog>
     </template>
-    <Button @click="save">Save</Button>
+    <Button @click="save" label="Save" />
   </div>
 </template>
 
