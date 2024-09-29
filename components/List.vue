@@ -3,8 +3,8 @@
 
 <template>
   <div class="relative w-full h-full overflow-hidden">
-    <Transition v-for="(view, index) in view.views" name="fade">
-      <View v-show="index === active" :view="view" />
+    <Transition v-for="(subView, index) in view.views" :name="view.effect">
+      <View v-show="index === active" :view="subView" />
     </Transition>
   </div>
 </template>
