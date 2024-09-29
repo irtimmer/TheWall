@@ -9,6 +9,10 @@
   opacity: 0;
 }
 
+.slide-parent {
+  overflow: hidden;
+}
+
 .slide-enter-active, .slide-leave-active {
   transition: transform .5s ease;
 }
@@ -19,4 +23,21 @@
 
 .slide-leave-to {
   transform: translateX(-100%);
+}
+
+.flip-parent {
+  perspective: 1000px;
+}
+
+.flip-enter-active, .flip-leave-active {
+  transition: transform .5s ease;
+  backface-visibility: hidden;
+}
+
+.flip-enter-from {
+  transform: rotateY(180deg);
+}
+
+.flip-leave-to {
+  transform: rotateY(-180deg);
 }
