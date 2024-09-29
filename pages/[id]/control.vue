@@ -5,7 +5,7 @@
   <div class="h-screen overflow-hidden">
     <Layout v-if="data" :data="data" root v-model:active="activeView"/>
     <Sidebar v-model:visible="sidebarVisible" position="right">
-      <Editor v-if="activeView" :webrtc="webrtc" :view="activeView"/>
+      <Editor v-if="activeView" v-model:visible="sidebarVisible" :view="activeView"/>
     </Sidebar>
   </div>
 </template>
