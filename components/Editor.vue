@@ -66,6 +66,11 @@ watch(() => internalView.value.type, async (type, oldType) => {
   if (type === 'layout') {
     internalView.value.constraints = { width: 4, height: 4 }
     delete internalView.value.url
+  } else if (type === 'list') {
+    internalView.value.effect = 'fade'
+    internalView.value.timeout = 5
+    delete internalView.value.constraints
+    delete internalView.value.url
   } else if (oldType == 'layout') {
     internalView.value.url = 'about:blank'
     delete internalView.value.constraints
