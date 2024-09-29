@@ -22,6 +22,9 @@
       <Slider v-model="internalView.timeout" min=1 max=300 class="w-full my-4" />
     </template>
     <InputText v-else type="text" v-model="internalView.url" class="my-2" />
+    <template v-if="internalView.type !== 'layout' && internalView.type !== 'root' && internalView.type !== 'list'">
+      <SelectButton v-model="internalView.effects" multiple :options="effects" optionLabel="label" optionValue="value" class="w-full mb-2" />
+    </template>
     <template v-if="internalView.type === 'iframe'">
       <Button @click="editCss = true" label="Edit CSS" />
       <Button @click="editScript = true" label="Edit Script" />
@@ -64,6 +67,10 @@ const transitions = [
   { name: 'Flip', value: 'flip' },
   { name: 'Grow', value: 'grow' },
   { name: 'Morph', value: 'morph' }
+]
+
+const effects = [
+  { label: 'Transparent', value: 'transparent'}
 ]
 
 watch(() => internalView.value.type, async (type, oldType) => {

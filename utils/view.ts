@@ -27,6 +27,7 @@ type ResourceView = {
   left: number
   width: number
   height: number
+  effects: string[]
 }
 
 export type View = LayoutView | ResourceView
