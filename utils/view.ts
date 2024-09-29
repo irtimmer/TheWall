@@ -3,7 +3,7 @@
 
 export type LayoutView = {
   id: string
-  type: "layout" | "root"
+  type: "layout" | "root" | "list"
   views: View[]
   constraints: {
     width: number

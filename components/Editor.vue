@@ -46,6 +46,7 @@ const editScript = ref(false)
 
 const viewTypes = [
   { label: 'Layout', value: 'layout'},
+  { label: 'List', value: 'list' },
   { label: 'Web', value: 'iframe' },
   { label: 'Image', value: 'img' },
   { label: 'Video', value: 'video' },
