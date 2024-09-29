@@ -16,6 +16,7 @@
 
 <style>
 @import url("~/assets/css/transitions.css");
+@import url("~/assets/css/effects.css");
 
 #wall {
   cursor: none;

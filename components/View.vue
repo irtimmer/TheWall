@@ -2,9 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 
 <template>
-  <iframe v-if="view.type == 'iframe'" @load="frameLoaded" :src="view.url" sandbox="allow-scripts allow-same-origin" ref="iframeView" :key="view.url" />
-  <img v-else-if="view.type == 'img'" :src="view.url" :key="view.url" />
-  <video v-else-if="view.type == 'video'" :src="view.url" ref="videoView" autoplay :key="view.url" />
+  <iframe v-if="view.type == 'iframe'" :class="effectClasses" @load="frameLoaded" :src="view.url" sandbox="allow-scripts allow-same-origin" ref="iframeView" :key="view.url" />
+  <img v-else-if="view.type == 'img'" :class="effectClasses" :src="view.url" :key="view.url" />
+  <video v-else-if="view.type == 'video'" :class="effectClasses" :src="view.url" ref="videoView" autoplay :key="view.url" />
   <List v-else-if="view.type == 'list'" :view="view" />
 </template>
 
@@ -24,6 +24,8 @@ img, iframe, video {
 const props = defineProps<{
   view: View
 }>()
+
+const effectClasses = computed(() => props.view.effects?.map(effect => `${effect}-effect`))
 
 const iframeView = ref<HTMLIFrameElement | null>(null)
 
