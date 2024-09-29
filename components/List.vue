@@ -16,8 +16,9 @@ const props = defineProps<{
   view: LayoutView
 }>()
 
+const timeout = computed(() => props.view.timeout * 1000)
 const active = ref(0)
 useIntervalFn(() => {
   active.value = (active.value + 1) % props.view.views.length
-}, 5000)
+}, timeout)
 </script>
