@@ -61,6 +61,7 @@ const effects = [
   { name: 'Fade', value: 'fade' },
   { name: 'Slide', value: 'slide' },
   { name: 'Flip', value: 'flip' },
+  { name: 'Grow', value: 'grow' },
   { name: 'Morph', value: 'morph' }
 ]
 

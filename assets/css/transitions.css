@@ -51,3 +51,17 @@
   opacity: 0;
   transform: scale(1.1)
 }
+
+.grow-enter-active, .grow-leave-active {
+  transition: transform .5s ease, opacity .5s ease;
+}
+
+.grow-enter-from {
+  transform: scale(.5);
+  opacity: 0;
+}
+
+.grow-leave-to {
+  transform: scale(2);
+  opacity: 0;
+}
