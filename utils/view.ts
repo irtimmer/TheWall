@@ -14,6 +14,7 @@ export type LayoutView = {
   width: number
   height: number
   effect?: string
+  timeout?: number
 }
 
 type ResourceView = {

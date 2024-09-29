@@ -18,6 +18,8 @@
     </template>
     <template v-else-if="internalView.type === 'list'">
       <Dropdown v-model="internalView.effect" :options="effects" optionLabel="name" optionValue="value" placeholder="Select an effect" class="w-full my-2" />
+      Switch every {{ internalView.timeout }}s
+      <Slider v-model="internalView.timeout" min=1 max=300 class="w-full my-4" />
     </template>
     <InputText v-else type="text" v-model="internalView.url" class="my-2" />
     <template v-if="internalView.type === 'iframe'">
