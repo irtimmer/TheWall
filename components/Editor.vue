@@ -17,7 +17,7 @@
       </div>
     </template>
     <template v-else-if="internalView.type === 'list'">
-      <Dropdown v-model="internalView.effect" :options="effects" optionLabel="name" optionValue="value" placeholder="Select an effect" class="w-full my-2" />
+      <Dropdown v-model="internalView.transition" :options="transitions" optionLabel="name" optionValue="value" placeholder="Select an effect" class="w-full my-2" />
       Switch every {{ internalView.timeout }}s
       <Slider v-model="internalView.timeout" min=1 max=300 class="w-full my-4" />
     </template>
@@ -58,7 +58,7 @@ const viewTypes = [
   { label: 'Video', value: 'video' },
 ]
 
-const effects = [
+const transitions = [
   { name: 'Fade', value: 'fade' },
   { name: 'Slide', value: 'slide' },
   { name: 'Flip', value: 'flip' },

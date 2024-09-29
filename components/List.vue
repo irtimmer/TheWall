@@ -3,7 +3,7 @@
 
 <template>
   <div :class="animationClass" class="relative w-full h-full">
-    <Transition v-for="(subView, index) in view.views" :name="view.effect">
+    <Transition v-for="(subView, index) in view.views" :name="view.transition">
       <View v-show="index === active" :view="subView" />
     </Transition>
   </div>
@@ -16,7 +16,7 @@ const props = defineProps<{
   view: LayoutView
 }>()
 
-const animationClass = computed(() => [`${props.view.effect}-parent`])
+const animationClass = computed(() => [`${props.view.transition}-parent`])
 
 const timeout = computed(() => props.view.timeout * 1000)
 const active = ref(0)

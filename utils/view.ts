@@ -13,7 +13,7 @@ export type LayoutView = {
   left: number
   width: number
   height: number
-  effect?: string
+  transition?: string
   timeout?: number
 }
 
