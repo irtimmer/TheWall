@@ -36,11 +36,12 @@
         </div>
       </Dialog>
     </template>
-    <Button @click="save" label="Save" />
+    <Button @click="apply" label="Apply" />
   </div>
 </template>
 
 <script setup lang="ts">
+const visible = defineModel<boolean>("visible")
 const props = defineProps<{
   view: View
 }>()
@@ -81,12 +82,13 @@ watch(() => internalView.value.type, async (type, oldType) => {
   }
 })
 
-function save() {
+function apply() {
   for (let key in props.view)
     if (props.view.hasOwnProperty(key))
       delete props.view[key]
 
   Object.assign(props.view, structuredClone(toRaw(internalView.value)))
+  visible.value = false
 }
 
 const { data: layouts } = await useFetch('/api/layouts')
