@@ -2,14 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 
 <template>
-  <div @transitionend="endTransition" :style="style">
-    <Transition name="fade">
-      <iframe v-if="view.type == 'iframe'" @load="frameLoaded" :src="view.url" sandbox="allow-scripts allow-same-origin" ref="iframeView" :key="view.url" />
-      <img v-else-if="view.type == 'img'" :src="view.url" :key="view.url" />
-      <video v-else-if="view.type == 'video'" :src="view.url" ref="videoView" autoplay :key="view.url" />
-      <List v-else-if="view.type == 'list'" :view="view" />
-    </Transition>
-  </div>
+  <iframe v-if="view.type == 'iframe'" @load="frameLoaded" :src="view.url" sandbox="allow-scripts allow-same-origin" ref="iframeView" :key="view.url" />
+  <img v-else-if="view.type == 'img'" :src="view.url" :key="view.url" />
+  <video v-else-if="view.type == 'video'" :src="view.url" ref="videoView" autoplay :key="view.url" />
+  <List v-else-if="view.type == 'list'" :view="view" />
 </template>
 
 <style scoped>
@@ -17,7 +13,7 @@ video {
   background-color: black;
 }
 
-div > * {
+img, iframe, video {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -29,41 +25,7 @@ const props = defineProps<{
   view: View
 }>()
 
-const scaleModel = ref({
-  transition: true,
-  width: props.view.width,
-  height: props.view.height,
-  scaleX: 1,
-  scaleY: 1
-})
-
-watch(() => props.view, view => {
-  scaleModel.value.transition = true
-  scaleModel.value.scaleX = view.width / scaleModel.value.width
-  scaleModel.value.scaleY = view.height / scaleModel.value.height
-})
-
 const iframeView = ref<HTMLIFrameElement | null>(null)
-const style = computed(() => {
-  return {
-    position: 'absolute',
-    height: scaleModel.value.height + 'vh',
-    width: scaleModel.value.width + 'vw',
-    'transform-origin': 'top left',
-    transform: `translate(${props.view.left}vw, ${props.view.top}vh) scale(${scaleModel.value.scaleX}, ${scaleModel.value.scaleY})`,
-    transition: scaleModel.value.transition ? `transform 0.5s ease-in-out` : null
-  }
-})
-
-const endTransition = () => {
-  scaleModel.value = {
-    transition: false,
-    width: props.view.width,
-    height: props.view.height,
-    scaleX: 1,
-    scaleY: 1
-  }
-}
 
 watch(() => props.view.css, (css, oldCss) => {
   if (window.wallInjectCss && iframeView.value && css)

@@ -2,7 +2,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 
 <template>
-  <View :view="activeView" />
+  <div class="relative w-full h-full overflow-hidden">
+    <Transition v-for="(view, index) in view.views" name="fade">
+      <View v-show="index === active" :view="view" />
+    </Transition>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -12,15 +16,8 @@ const props = defineProps<{
   view: LayoutView
 }>()
 
-const index = ref(0)
-const activeView = computed(() => ({
-  ...props.view.views[index.value],
-  top: 0,
-  left: 0,
-  width: props.view.width,
-  height: props.view.height
-}))
+const active = ref(0)
 useIntervalFn(() => {
-  index.value = (index.value + 1) % props.view.views.length
+  active.value = (active.value + 1) % props.view.views.length
 }, 5000)
 </script>

@@ -5,7 +5,7 @@
   <div id="wall" v-if="data">
     <TransitionGroup name="fade">
       <div v-for="view in views" :key="view.id">
-        <View :view="view" />
+        <Container :view="view" />
       </div>
     </TransitionGroup>
     <p id="copyright-notice" class="fixed bottom-2 right-2 bg-black bg-opacity-50 text-white p-2 rounded text-base">
