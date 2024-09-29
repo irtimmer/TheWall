@@ -41,3 +41,13 @@
 .flip-leave-to {
   transform: rotateY(-180deg);
 }
+
+.morph-enter-active, .morph-leave-active {
+  transition: filter 1s ease, opacity .5s .5s ease, transform 1s ease;
+}
+
+.morph-enter-from, .morph-leave-to {
+  filter: blur(20px) brightness(2) contrast(2) saturate(2) grayscale(100%);
+  opacity: 0;
+  transform: scale(1.1)
+}

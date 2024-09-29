@@ -60,7 +60,8 @@ const viewTypes = [
 const effects = [
   { name: 'Fade', value: 'fade' },
   { name: 'Slide', value: 'slide' },
-  { name: 'Flip', value: 'flip' }
+  { name: 'Flip', value: 'flip' },
+  { name: 'Morph', value: 'morph' }
 ]
 
 watch(() => internalView.value.type, async (type, oldType) => {
