@@ -8,6 +8,9 @@
         <Container :view="view" />
       </div>
     </TransitionGroup>
+    <p v-if="status !== 'OPEN'" class="fixed top-2 right-2 bg-yellow-500 bg-opacity-50 text-white p-2 rounded text-base">
+      {{ status === 'CONNECTING' ? 'Connecting...' : 'Disconnected' }}
+    </p>
     <p id="copyright-notice" class="fixed bottom-2 right-2 bg-black bg-opacity-50 text-white p-2 rounded text-base">
       TheWall - &copy; 2024 Iwan Timmer
     </p>
@@ -38,7 +41,9 @@ if (import.meta.client && window.wallRendererInit)
   window.wallRendererInit()
 
 const id = route.params.id
-const { data: d } = useEventSource(`/api/events?id=${id}`)
+const { status, data: d } = useEventSource(`/api/events?id=${id}`, [], {
+  autoReconnect: true
+})
 watch(d, d => {
   if (!d) return
 
