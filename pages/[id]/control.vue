@@ -5,7 +5,7 @@
   <div class="h-screen overflow-hidden">
     <Layout v-if="data" :data="data" root v-model:active="activeView"/>
     <Sidebar v-model:visible="sidebarVisible" position="right">
-      <Editor v-if="activeView" v-model:visible="sidebarVisible" :view="activeView"/>
+      <Editor v-if="activeView" v-model:visible="sidebarVisible" :uuid="uuid" :view="activeView"/>
     </Sidebar>
   </div>
 </template>
@@ -15,7 +15,10 @@
 </style>
 
 <script setup lang="ts">
+import { useEventBus, useEventSource } from '@vueuse/core'
 import { useRoute } from 'vue-router'
+
+const uuid = ref()
 
 const route = useRoute()
 const id = route.params.id
@@ -24,6 +27,22 @@ const activeView = ref<View | null>(null)
 const sidebarVisible = computed<boolean>({
   get: () => !!activeView.value,
   set: v => activeView.value = v ? activeView.value : null
+})
+
+const webrtcBus = useEventBus('webrtc')
+
+onMounted(() => {
+  uuid.value = crypto.randomUUID()
+  const { data: event } = useEventSource(`/api/events?id=${uuid.value}`, [], {
+    autoReconnect: true
+  })
+  watch(event, event => {
+    if (!event) return
+
+    const json = JSON.parse(event)
+    if (json.action === 'webrtc')
+      webrtcBus.emit(json)
+  })
 })
 
 watch(data, data => {

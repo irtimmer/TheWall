@@ -19,7 +19,7 @@ export type LayoutView = {
 
 type ResourceView = {
   id: string
-  type: "iframe" | "video" | "img"
+  type: "iframe" | "video" | "img" | "webrtc"
   css: string
   script: string
   url: string

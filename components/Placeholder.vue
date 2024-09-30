@@ -11,6 +11,9 @@
       <div class="grow flex flex-col justify-center items-center w-full">
         <Layout v-if="view.type === 'layout'" :data="view" v-model:active="active" />
         <ListLayout v-else-if="view.type === 'list'" :data="view" v-model:active="active" />
+        <p v-else-if="view.type === 'webrtc'" class="text-center">
+          <WebRTC source="screen" :id="view.id" :receiver="remoteId" hidden />
+        </p>
         <p v-else class="text-center">
           <img v-if="favicon" :src="favicon" class="w-4 h-4 inline" />
           {{ view.url }}
@@ -173,4 +176,7 @@ const activate = (event: MouseEvent) => {
   else
     active.value = props.view
 }
+
+const route = useRoute()
+const remoteId = route.params.id as string
 </script>

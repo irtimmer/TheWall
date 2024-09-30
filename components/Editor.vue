@@ -21,7 +21,7 @@
       Switch every {{ internalView.timeout }}s
       <Slider v-model="internalView.timeout" min=1 max=300 class="w-full my-4" />
     </template>
-    <InputText v-else type="text" v-model="internalView.url" class="my-2" />
+    <InputText v-else-if="internalView.type !== 'webrtc'" type="text" v-model="internalView.url" class="my-2" />
     <template v-if="internalView.type !== 'layout' && internalView.type !== 'root' && internalView.type !== 'list'">
       <SelectButton v-model="internalView.effects" multiple :options="effects" optionLabel="label" optionValue="value" class="w-full mb-2" />
     </template>
@@ -47,6 +47,7 @@
 const visible = defineModel<boolean>("visible")
 const props = defineProps<{
   view: View
+  uuid: string
 }>()
 
 const internalView = ref(structuredClone(toRaw(props.view)))
@@ -59,6 +60,7 @@ const viewTypes = [
   { label: 'Web', value: 'iframe' },
   { label: 'Image', value: 'img' },
   { label: 'Video', value: 'video' },
+  { label: 'WebRTC', value: 'webrtc' }
 ]
 
 const transitions = [
@@ -93,6 +95,9 @@ function apply() {
   for (let key in props.view)
     if (props.view.hasOwnProperty(key))
       delete props.view[key]
+
+  if (internalView.value.type === 'webrtc')
+    internalView.value.url = props.uuid
 
   Object.assign(props.view, structuredClone(toRaw(internalView.value)))
   visible.value = false

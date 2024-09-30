@@ -30,7 +30,7 @@
 </style>
 
 <script setup lang="ts">
-import { useEventSource } from '@vueuse/core'
+import { useEventBus, useEventSource } from '@vueuse/core'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -39,6 +39,8 @@ const windowed = ref(false)
 
 if (import.meta.client && window.wallRendererInit)
   window.wallRendererInit()
+
+const webrtcBus = useEventBus('webrtc')
 
 const id = route.params.id
 const { status, data: d } = useEventSource(`/api/events?id=${id}`, [], {
@@ -50,6 +52,8 @@ watch(d, d => {
   const event = JSON.parse(d)
   if (event.action === 'setup')
     data.value = event.data
+  else if (event.action === 'webrtc')
+    webrtcBus.emit(event)
 })
 
 function flattenViews(views: View[], parent?: View): View[] {

@@ -4,7 +4,8 @@
 <template>
   <iframe v-if="view.type == 'iframe'" :class="effectClasses" @load="frameLoaded" :src="view.url" sandbox="allow-scripts allow-same-origin" ref="iframeView" :key="view.url" />
   <img v-else-if="view.type == 'img'" :class="effectClasses" :src="view.url" :key="view.url" />
-  <video v-else-if="view.type == 'video'" :class="effectClasses" :src="view.url" ref="videoView" autoplay :key="view.url" />
+  <video v-else-if="view.type == 'video'" :class="effectClasses" :src="view.url" autoplay :key="view.url" />
+  <WebRTC v-else-if="view.type == 'webrtc'" :class="effectClasses" :receiver="view.url" :id="view.id" :key="view.url" />
   <List v-else-if="view.type == 'list'" :view="view" />
 </template>
 
