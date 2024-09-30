@@ -38,6 +38,7 @@ This will allow TheWall (and any other website) to request fullscreen mode witho
 
 If you installed the extension, you will be redirected to the extension options page if TheWall is running on a different origin than http://localhost:3000.
 As a security measure, you need to set the origin of the server on the options page.
+If you want to allow injecting custom JavaScript, you need to enable the `Allow JavaScript injects` option.
 
 The control computer can access the control panel by visiting `http://SERVER_IP:3000/WALL_ID/control`.
 
@@ -59,7 +60,7 @@ The file should contain a array of objects with the following structure:
 
 It is advised to run the application behind a reverse proxy with HTTPS enabled if you want to access the application over a network.
 
-Everyone with access to the server can change the websites displayed on the wall and inject custom CSS and JavaScript.
+Everyone with access to the server can change the websites displayed on the wall and inject custom CSS and if enabled also inject custom JavaScript.
 The extension will also reduce the security of the displayed websites by changing security related headers.
 
 ## Copyright and License

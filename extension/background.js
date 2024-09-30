@@ -4,6 +4,7 @@
 const REMOVE_HEADERS = ['x-frame-options', 'frame-options']
 
 let trustedOrigin = null
+let scriptEnabled = false
 
 const onHeadersReceived = req => {
   // Only modify headers for iframes on the top level
@@ -37,6 +38,7 @@ const onHeadersReceived = req => {
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.action == 'rendererInit') {
     trustedOrigin = (await browser.storage.local.get("domain")).domain || "http://localhost:3000"
+    scriptEnabled = (await browser.storage.local.get("script")).script || false
     if (sender.origin != trustedOrigin) {
       browser.runtime.openOptionsPage()
       sendResponse({ message: 'untrusted' })
@@ -60,6 +62,9 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     browser.tabs.insertCSS(sender.tab.id, { code: message.css, frameId: message.frameId })
     sendResponse({ message: 'ok' })
   } else if (message.action == 'injectScript') {
+    if (!scriptEnabled)
+      return sendResponse({ message: 'unallowed' })
+
     browser.tabs.executeScript(sender.tab.id, { code: message.script, frameId: message.frameId })
     sendResponse({ message: 'ok' })
   }
