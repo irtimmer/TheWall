@@ -7,6 +7,8 @@ export function useWebRTC(polite: boolean, signal: (signal: {description?: RTCSe
   let makingOffer = false;
   let ignoreOffer = false;
 
+  let bufferedCandidates: RTCIceCandidate[] = []
+
   const pc = new RTCPeerConnection({
     iceServers: config.public?.iceServers
   });
@@ -41,11 +43,20 @@ export function useWebRTC(polite: boolean, signal: (signal: {description?: RTCSe
           return
 
         await pc.setRemoteDescription(descriptionRemote)
+        for (const candidate of bufferedCandidates)
+          await pc.addIceCandidate(candidate)
+
+        bufferedCandidates = []
         if (descriptionRemote.type === "offer") {
           await pc.setLocalDescription()
           await signal({ description: pc.localDescription})
         }
       } else if (candidateRemote) {
+        if (!pc.remoteDescription) {
+          bufferedCandidates.push(candidateRemote)
+          return
+        }
+
         try {
           await pc.addIceCandidate(candidateRemote)
         } catch (err) {
