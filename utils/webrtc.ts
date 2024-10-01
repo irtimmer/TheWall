@@ -1,11 +1,8 @@
 // Copyright (C) 2024 Iwan Timmer
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-export function useWebRTC(polite: boolean, remoteView: HTMLVideoElement | undefined) {
+export function useWebRTC(polite: boolean, signal: (signal: {description?: RTCSessionDescription, candidate?: RTCIceCandidate}) => Promise<void>, remoteView: HTMLVideoElement | undefined) {
   const config = useAppConfig()
-
-  const description = ref<RTCSessionDescription | null>(null)
-  const candidate = ref<RTCIceCandidate | null>(null)
 
   let makingOffer = false;
   let ignoreOffer = false;
@@ -25,14 +22,14 @@ export function useWebRTC(polite: boolean, remoteView: HTMLVideoElement | undefi
     try {
       makingOffer = true
       await pc.setLocalDescription()
-      description.value = pc.localDescription
+      await signal({ description: pc.localDescription})
     } catch (err) {
       console.error(err)
     } finally {
       makingOffer = false
     }
   };
-  pc.onicecandidate = ({ candidate: c }) => candidate.value = c
+  pc.onicecandidate = async ({ candidate }) => await signal({ candidate })
 
   const onsignal = async ({data: {description: descriptionRemote, candidate: candidateRemote}}: MessageEvent) => {
     try {
@@ -46,10 +43,9 @@ export function useWebRTC(polite: boolean, remoteView: HTMLVideoElement | undefi
         await pc.setRemoteDescription(descriptionRemote)
         if (descriptionRemote.type === "offer") {
           await pc.setLocalDescription()
-          description.value = pc.localDescription
+          await signal({ description: pc.localDescription})
         }
       } else if (candidateRemote) {
-        console.log("onsignal", "candidate")
         try {
           await pc.addIceCandidate(candidateRemote)
         } catch (err) {
@@ -68,8 +64,6 @@ export function useWebRTC(polite: boolean, remoteView: HTMLVideoElement | undefi
 
   return {
     pc,
-    description,
-    candidate,
     onsignal,
     cleanup
   }

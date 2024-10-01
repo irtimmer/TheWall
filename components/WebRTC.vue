@@ -21,7 +21,7 @@ const videoView = ref<HTMLVideoElement | null>(null)
 
 const webrtcBus = useEventBus<{id: string, data: any}>('webrtc')
 async function sendSignal(data: any) {
-  await useFetch(`/api/event?id=${props.receiver}`, {
+  await $fetch(`/api/event?id=${props.receiver}`, {
     method: 'POST',
     body: JSON.stringify({
       "action": "webrtc",
@@ -35,7 +35,7 @@ const connection = ref<RTCPeerConnection | undefined>()
 const stream = ref<MediaStream | undefined>()
 
 onMounted(async () => {
-  const { pc, description, candidate, onsignal } = useWebRTC(true, videoView.value)
+  const { pc, onsignal } = useWebRTC(true, sendSignal, videoView.value)
   connection.value = pc
 
   webrtcBus.on((event) => {
@@ -45,14 +45,6 @@ onMounted(async () => {
       else
         onsignal(event)
     }
-  })
-  watch(description, async (description) => {
-    if (description)
-      sendSignal({ description })
-  })
-  watch(candidate, async (candidate) => {
-    if (candidate)
-      sendSignal({ candidate })
   })
 
   pc.addEventListener("iceconnectionstatechange", () => {
