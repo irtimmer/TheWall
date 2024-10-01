@@ -33,7 +33,6 @@ export function useWebRTC(polite: boolean, remoteView: HTMLVideoElement | undefi
   const onsignal = async ({data: {description: descriptionRemote, candidate: candidateRemote}}: MessageEvent) => {
     try {
       if (descriptionRemote) {
-        console.log("onsignal", "description")
         const offerCollision = descriptionRemote.type === "offer" && (makingOffer || pc.signalingState !== "stable")
 
         ignoreOffer = !polite && offerCollision
@@ -41,18 +40,14 @@ export function useWebRTC(polite: boolean, remoteView: HTMLVideoElement | undefi
           return
 
         await pc.setRemoteDescription(descriptionRemote)
-        console.log("setRemoteDescription")
         if (descriptionRemote.type === "offer") {
-          console.log("createAnswer")
           await pc.setLocalDescription()
-          console.log("setLocalDescription", pc.localDescription)
           description.value = pc.localDescription
         }
       } else if (candidateRemote) {
         console.log("onsignal", "candidate")
         try {
           await pc.addIceCandidate(candidateRemote)
-          console.log("addIceCandidate")
         } catch (err) {
           if (!ignoreOffer)
             throw err
