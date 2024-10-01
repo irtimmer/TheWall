@@ -5,6 +5,7 @@ import path from 'path';
 import fs from 'fs';
 
 const usersFile = path.resolve(__dirname, 'users.json');
+const configFile = path.resolve(__dirname, 'config.json');
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -25,5 +26,6 @@ export default defineNuxtConfig({
     users: JSON.parse(fs.readFileSync(usersFile, 'utf-8'))
   } : {
     enabled: false
-  }
+  },
+  runtimeConfig: fs.existsSync(configFile) ? JSON.parse(fs.readFileSync(configFile, 'utf-8')) : undefined
 })

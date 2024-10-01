@@ -2,13 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 export function useWebRTC(polite: boolean, remoteView: HTMLVideoElement | undefined) {
+  const config = useAppConfig()
+
   const description = ref<RTCSessionDescription | null>(null)
   const candidate = ref<RTCIceCandidate | null>(null)
 
   let makingOffer = false;
   let ignoreOffer = false;
 
-  const pc = new RTCPeerConnection();
+  const pc = new RTCPeerConnection({
+    iceServers: config.public?.iceServers
+  });
   pc.ontrack = ({ track, streams }) => {
     track.onunmute = () => {
       if (!remoteView || remoteView.srcObject)
