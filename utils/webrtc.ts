@@ -14,9 +14,9 @@ export function useWebRTC(polite: boolean, signal: (signal: {description?: RTCSe
   });
   pc.ontrack = ({ track, streams }) => {
     track.onunmute = () => {
-      if (!remoteView || remoteView.srcObject)
+      if (!remoteView)
         return
-
+  
       remoteView.srcObject = streams[0]
     }
   }
@@ -33,6 +33,11 @@ export function useWebRTC(polite: boolean, signal: (signal: {description?: RTCSe
   };
   pc.onicecandidate = async ({ candidate }) => await signal({ candidate })
 
+  pc.oniceconnectionstatechange = () => {
+    if (pc.iceConnectionState === "failed")
+      pc.restartIce()
+  }
+
   const onsignal = async ({data: {description: descriptionRemote, candidate: candidateRemote}}: MessageEvent) => {
     try {
       if (descriptionRemote) {
@@ -44,7 +49,11 @@ export function useWebRTC(polite: boolean, signal: (signal: {description?: RTCSe
 
         await pc.setRemoteDescription(descriptionRemote)
         for (const candidate of bufferedCandidates)
-          await pc.addIceCandidate(candidate)
+          try {
+            await pc.addIceCandidate(candidate)
+          } catch (err) {
+            console.error(err)
+          }
 
         bufferedCandidates = []
         if (descriptionRemote.type === "offer") {

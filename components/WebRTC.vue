@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 
 <template>
-  <a v-if="source && !stream" @click.stop="startStream">Start stream</a>
+  <a v-if="source && !streaming" @click.stop="startStream">Start stream</a>
   <video v-else-if="!hidden" ref="videoView" autoplay></video>
   <p v-else>Stream</p>
 </template>
@@ -13,72 +13,81 @@ import { useEventBus } from '@vueuse/core';
 const props = defineProps<{
   source?: 'screen',
   id: string,
-  receiver: string
+  receiver?: string
   hidden?: boolean
 }>()
 
+const remoteid = ref(props.receiver)
 const videoView = ref<HTMLVideoElement | null>(null)
 
-const webrtcBus = useEventBus<{id: string, data: any}>('webrtc')
+const localid = useState('localid')
+const webrtcBus = useEventBus<{id: string, remote: string, data: any}>('webrtc')
 async function sendSignal(data: any) {
-  await $fetch(`/api/event?id=${props.receiver}`, {
+  // Ignore empty signals
+  if (!remoteid.value)
+    return
+
+  if (!data.candidate && !data.description)
+    return
+
+  await $fetch(`/api/event?id=${remoteid.value}`, {
     method: 'POST',
     body: JSON.stringify({
       "action": "webrtc",
       "id": props.id,
+      "remote": localid.value,
       "data": data
     }),
   })
 }
 
-const connection = ref<RTCPeerConnection | undefined>()
-const stream = ref<MediaStream | undefined>()
+const streaming = ref(false)
+let pc: RTCPeerConnection | undefined
+let stream: MediaStream | undefined
+let onsignal: ((data: any) => void) | undefined
 
-onMounted(async () => {
-  const { pc, onsignal } = useWebRTC(true, sendSignal, videoView.value)
-  connection.value = pc
-
-  webrtcBus.on((event) => {
-    if (event.id == props.id) {
-      if (event.data.restartIce)
-        pc.restartIce()
-      else
-        onsignal(event)
-    }
-  })
-
-  pc.addEventListener("iceconnectionstatechange", () => {
-    if (pc.iceConnectionState === "failed") {
-      stream.value?.getTracks().forEach(track => track.stop())
-      stream.value = undefined
-    }
-  })
+function connect() {
+  ({ pc, onsignal } = useWebRTC(!props.hidden, sendSignal, videoView.value))
 
   pc.onconnectionstatechange = () => {
     if (pc.connectionState === 'disconnected' || pc.connectionState === 'closed') {
-      stream.value?.getTracks().forEach(track => track.stop())
-      stream.value = undefined
+      stream?.getTracks().forEach(track => track.stop())
+      stream = undefined
+      streaming.value = false
     }
   }
-})
+}
+onMounted(connect)
+
+webrtcBus.on((event) => {
+    if (event.id == props.id) {
+      if (remoteid.value && remoteid.value != event.remote) {
+        pc?.close()
+        connect()
+      }
+
+      remoteid.value = event.remote
+      onsignal?.(event)
+    }
+  })
 
 async function startStream() {
   if (props.source == 'screen')
-    stream.value = await navigator.mediaDevices.getDisplayMedia({ audio: false, video: true })
+    stream = await navigator.mediaDevices.getDisplayMedia({ audio: false, video: true })
   else
     return
 
-  if (connection.value?.iceConnectionState === "failed") {
-    sendSignal({ restartIce: true })
-    connection.value.restartIce()
-  }
+  if (pc?.iceConnectionState === 'disconnected')
+    connect()
 
-  for (const track of stream.value.getTracks())
-    connection.value?.addTrack(track, stream.value)
+  for (const track of stream.getTracks())
+    pc?.addTrack(track, stream)
+
+  streaming.value = true
 }
 
 onUnmounted(() => {
-  stream.value?.getTracks().forEach(track => track.stop())
-  connection.value?.close()
+  stream?.getTracks().forEach(track => track.stop())
+  pc?.close()
 })
 </script>

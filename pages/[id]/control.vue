@@ -5,7 +5,7 @@
   <div class="h-screen overflow-hidden">
     <Layout v-if="data" :data="data" root v-model:active="activeView"/>
     <Sidebar v-model:visible="sidebarVisible" position="right">
-      <Editor v-if="activeView" v-model:visible="sidebarVisible" :uuid="uuid" :view="activeView"/>
+      <Editor v-if="activeView" v-model:visible="sidebarVisible" :view="activeView"/>
     </Sidebar>
   </div>
 </template>
@@ -18,22 +18,20 @@
 import { useEventBus, useEventSource } from '@vueuse/core'
 import { useRoute } from 'vue-router'
 
-const uuid = ref()
-
 const route = useRoute()
-const id = route.params.id
-const { data } = await useFetch(`/api/state?id=${id}`)
+const remoteid = useState('remoteid', () => route.params.id)
+const { data } = await useFetch(`/api/state?id=${remoteid.value}`)
 const activeView = ref<View | null>(null)
 const sidebarVisible = computed<boolean>({
   get: () => !!activeView.value,
   set: v => activeView.value = v ? activeView.value : null
 })
 
+const localid = useState('localid', () => crypto.randomUUID())
 const webrtcBus = useEventBus('webrtc')
 
 onMounted(() => {
-  uuid.value = crypto.randomUUID()
-  const { data: event } = useEventSource(`/api/events?id=${uuid.value}`, [], {
+  const { data: event } = useEventSource(`/api/events?id=${localid.value}`, [], {
     autoReconnect: true
   })
   watch(event, event => {
@@ -46,7 +44,7 @@ onMounted(() => {
 })
 
 watch(data, data => {
-  useFetch(`/api/event?id=${id}`, {
+  useFetch(`/api/event?id=${remoteid.value}`, {
     method: 'POST',
     body: JSON.stringify({
       "action": "setup",

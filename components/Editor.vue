@@ -47,7 +47,6 @@
 const visible = defineModel<boolean>("visible")
 const props = defineProps<{
   view: View
-  uuid: string
 }>()
 
 const internalView = ref(structuredClone(toRaw(props.view)))
@@ -95,9 +94,6 @@ function apply() {
   for (let key in props.view)
     if (props.view.hasOwnProperty(key))
       delete props.view[key]
-
-  if (internalView.value.type === 'webrtc')
-    internalView.value.url = props.uuid
 
   Object.assign(props.view, structuredClone(toRaw(internalView.value)))
   visible.value = false

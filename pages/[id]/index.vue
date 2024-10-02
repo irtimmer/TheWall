@@ -42,8 +42,8 @@ if (import.meta.client && window.wallRendererInit)
 
 const webrtcBus = useEventBus('webrtc')
 
-const id = route.params.id
-const { status, data: d } = useEventSource(`/api/events?id=${id}`, [], {
+const localid = useState('localid', () => route.params.id)
+const { status, data: d } = useEventSource(`/api/events?id=${localid.value}`, [], {
   autoReconnect: true
 })
 watch(d, d => {

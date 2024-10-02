@@ -12,7 +12,7 @@
         <Layout v-if="view.type === 'layout'" :data="view" v-model:active="active" />
         <ListLayout v-else-if="view.type === 'list'" :data="view" v-model:active="active" />
         <p v-else-if="view.type === 'webrtc'" class="text-center">
-          <WebRTC source="screen" :id="view.id" :receiver="remoteId" hidden />
+          <WebRTC source="screen" :id="view.id" :receiver="remoteid" hidden />
         </p>
         <p v-else class="text-center">
           <img v-if="favicon" :src="favicon" class="w-4 h-4 inline" />
@@ -84,6 +84,7 @@ const overlayStyle = computed(() => ({
   left: overlayLeft.value - props.view.left + 'cqw'
 }))
 
+const remoteid = useState<string>('remoteid')
 const favicon = computed(() => {
   const url = new URL(props.view.url)
   if (!url.host)
@@ -176,7 +177,4 @@ const activate = (event: MouseEvent) => {
   else
     active.value = props.view
 }
-
-const route = useRoute()
-const remoteId = route.params.id as string
 </script>
