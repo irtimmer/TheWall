@@ -68,7 +68,8 @@ const transitions = [
   { name: 'Slide (fade)', value: 'slide-fade'},
   { name: 'Flip', value: 'flip' },
   { name: 'Grow', value: 'grow' },
-  { name: 'Morph', value: 'morph' }
+  { name: 'Morph', value: 'morph' },
+  { name: 'Morph (out)', value: 'morph-out'},
 ]
 
 const effects = [
