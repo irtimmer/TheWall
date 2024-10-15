@@ -79,6 +79,11 @@ watch(() => internalView.value.type, async (type, oldType) => {
     internalView.value.constraints = { width: 4, height: 4 }
     delete internalView.value.url
   } else if (type === 'list') {
+    if (oldType != 'layout') {
+      internalView.value.views = [structuredClone(toRaw(internalView.value))]
+      internalView.value.views[0].type = oldType
+      internalView.value.id = crypto.randomUUID()
+    }
     internalView.value.effect = 'fade'
     internalView.value.timeout = 5
     delete internalView.value.constraints
@@ -86,6 +91,11 @@ watch(() => internalView.value.type, async (type, oldType) => {
   } else if (oldType == 'layout') {
     internalView.value.url = 'about:blank'
     delete internalView.value.constraints
+    delete internalView.value.views
+  } else if (oldType == 'list') {
+    if (internalView.value.views.length == 1 && internalView.value.views[0].type == type) {
+      internalView.value = {...toRaw(internalView.value.views[0])}
+    }
     delete internalView.value.views
   }
 })
