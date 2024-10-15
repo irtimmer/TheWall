@@ -65,6 +65,7 @@ const viewTypes = [
 const transitions = [
   { name: 'Fade', value: 'fade' },
   { name: 'Slide', value: 'slide' },
+  { name: 'Slide (fade)', value: 'slide-fade'},
   { name: 'Flip', value: 'flip' },
   { name: 'Grow', value: 'grow' },
   { name: 'Morph', value: 'morph' }
