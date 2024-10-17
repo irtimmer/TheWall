@@ -23,7 +23,7 @@ img, iframe, video {
 
 <script setup lang="ts">
 const props = defineProps<{
-  view: View
+  view: ChildView
 }>()
 
 const effectClasses = computed(() => props.view.effects?.map(effect => `${effect}-effect`))

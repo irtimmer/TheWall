@@ -22,12 +22,12 @@
 <script setup lang="ts">
 const active = defineModel<View>("active")
 const props = defineProps<{
-  data: LayoutView
+  data: ListView
 }>()
 
 const container = ref(null)
 
-function removeView(view) {
+function removeView(view: ChildView) {
   const index = props.data.views.indexOf(view)
   props.data.views.splice(index, 1)
 }

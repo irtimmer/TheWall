@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  view: View
+  view: ChildView
 }>()
 
 const scaleModel = ref({

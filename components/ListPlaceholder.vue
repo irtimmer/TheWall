@@ -28,7 +28,7 @@
 <script setup lang="ts">
 const active = defineModel<View>("active")
 const props = defineProps<{
-  view: View
+  view: ChildView
 }>()
 
 const remoteid = useState<string>('remoteid')

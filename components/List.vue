@@ -13,7 +13,7 @@
 import { useIntervalFn } from '@vueuse/core';
 
 const props = defineProps<{
-  view: LayoutView
+  view: ListView
 }>()
 
 const animationClass = computed(() => [`${props.view.transition}-parent`])
