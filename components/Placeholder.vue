@@ -85,13 +85,7 @@ const overlayStyle = computed(() => ({
 }))
 
 const remoteid = useState<string>('remoteid')
-const favicon = computed(() => {
-  const url = new URL(props.view.url)
-  if (!url.host)
-    return null
-
-  return `https://www.google.com/s2/favicons?domain=${url.host}`
-})
+const favicon = useFavicon(toRef(() => props.view.url))
 const activated = computed(() => active.value === props.view)
 
 const activeClass = computed(() => ({
