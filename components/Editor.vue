@@ -26,6 +26,8 @@
       <SelectButton v-model="internalView.effects" multiple :options="effects" optionLabel="label" optionValue="value" class="w-full mb-2" />
     </template>
     <template v-if="internalView.type === 'iframe'">
+      Zoom level {{ internalView.zoom }}
+      <Slider v-model="internalView.zoom" :min=.25 :max=4 :step=.25 class="w-full my-4" />
       <Button @click="editCss = true" label="Edit CSS" />
       <Button @click="editScript = true" label="Edit Script" />
       <Dialog v-model:visible="editCss" header="Edit CSS">

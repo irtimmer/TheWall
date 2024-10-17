@@ -40,6 +40,7 @@ export type IFrameView = BaseResourceView & {
   css: string
   script: string
   effects: string[]
+  zoom: number
 }
 
 export type VideoView = BaseResourceView & {
@@ -82,6 +83,7 @@ export function addView(layout: ContainerView) {
     left: 0,
     height: 25,
     width: 25,
+    zoom: 1,
     css: "",
     script: "",
     effects: []

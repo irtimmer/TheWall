@@ -14,18 +14,20 @@ const props = defineProps<{
   view: ChildView
 }>()
 
+const zoom = props.view.type == 'iframe' && props.view.zoom || 1
 const scaleModel = ref({
   transition: true,
-  width: props.view.width,
-  height: props.view.height,
-  scaleX: 1,
-  scaleY: 1
+  width: props.view.width / zoom,
+  height: props.view.height / zoom,
+  scaleX: zoom,
+  scaleY: zoom
 })
 
 watch(() => props.view, view => {
+  const zoom = (view.type == 'iframe' && view.zoom) || 1
   scaleModel.value.transition = true
-  scaleModel.value.scaleX = view.width / scaleModel.value.width
-  scaleModel.value.scaleY = view.height / scaleModel.value.height
+  scaleModel.value.scaleX = (view.width * zoom) / (scaleModel.value.width * scaleModel.value.scaleX)
+  scaleModel.value.scaleY = (view.height * zoom) / (scaleModel.value.height * scaleModel.value.scaleY)
 })
 
 const style = computed(() => {
@@ -40,12 +42,13 @@ const style = computed(() => {
 })
 
 const endTransition = () => {
+  const zoom = props.view.type == 'iframe' && props.view.zoom || 1
   scaleModel.value = {
     transition: false,
-    width: props.view.width,
-    height: props.view.height,
-    scaleX: 1,
-    scaleY: 1
+    width: props.view.width / zoom,
+    height: props.view.height / zoom,
+    scaleX: zoom,
+    scaleY: zoom
   }
 }
 </script>
