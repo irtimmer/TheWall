@@ -44,6 +44,30 @@ The control computer can access the control panel by visiting `http://SERVER_IP:
 
 Where `SERVER_IP` is the IP address of the server running the application, and `WALL_ID` is the ID of the wall you want to access.
 
+## WebRTC
+
+TheWall supports WebRTC for sharing your screen with the wall.
+This feature should work out of the box, as long as the wall computer and the control computer can directly communicate with each other.
+If the wall computer or the control computer is behind a NAT, you need to configure a STUN and/or TURN server.
+The STUN and TURN server can be configured in the `config.json` file.
+
+```json
+{
+  "public": {
+    "iceServers": [
+      {
+        "urls": "stun:stun.l.google.com:19302"
+      },
+      {
+        "urls": "turn:yourturnserver.com:3478",
+        "username": "USERNAME",
+        "credential": "PASSWORD"
+      }
+    ]
+  }
+}
+```
+
 ## Security Considerations
 
 Ensure that the server running TheWall is thrusted and not accessible by unauthorized users.
