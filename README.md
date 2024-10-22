@@ -24,12 +24,7 @@ Due to CSP and Frame-Options headers, by default, you can't embed all external w
 To circumvent this, you need to install the browser extension, provided in the `extension` folder.
 This extension will remove the headers from the response, allowing you to embed any website.
 
-In standard versions of Firefox, to install the extension, open `about:debugging` in Firefox, click on `This Firefox`, and then `Load Temporary Add-on`.
-
-To install the extension permanently, the Developer Edition of Firefox is required.
-To use unsigned extensions in the Developer Edition of Firefox, you need to set the `xpinstall.signatures.required` preference to `false` in `about:config`.
-Afterwards you can create a zip file of the extension folder and change the extension's file extension to `.xpi`.
-This extension can then be installed by dragging the file into the Firefox window.
+You can download and install a signed version of the extension from the [Mozilla Add-ons website](https://addons.mozilla.org/en-US/firefox/addon/thewall/).
 
 The wall computer can access the rendered wall by visiting `http://SERVER_IP:3000/WALL_ID`.
 You can make TheWall fullscreen by pressing `F11`.
