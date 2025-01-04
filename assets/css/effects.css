@@ -4,3 +4,8 @@
 .transparent-effect {
   filter: opacity(.8);
 }
+
+.card-effect {
+  padding: 5px;
+  border-radius: 1em;
+}

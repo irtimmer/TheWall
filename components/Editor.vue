@@ -92,6 +92,7 @@ const transitions = [
 ]
 
 const effects = [
+  { label: 'Card', value: 'card' },
   { label: 'Transparent', value: 'transparent'}
 ]
 
