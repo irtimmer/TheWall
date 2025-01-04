@@ -24,6 +24,22 @@
     <InputText v-else-if="internalView.type !== 'webrtc'" type="text" v-model="internalView.url" class="my-2" />
     <template v-if="internalView.type !== 'layout' && internalView.type !== 'root' && internalView.type !== 'list'">
       <SelectButton v-model="internalView.effects" multiple :options="effects" optionLabel="label" optionValue="value" class="w-full mb-2" />
+      <template v-if="internalView.reload > 0">
+        Refresh every
+        <template v-if="internalView.reload > 120">
+          {{ internalView.reload - 120 }}h
+        </template>
+        <template v-else-if="internalView.reload > 60">
+          {{ internalView.reload - 60 }}m
+        </template>
+        <template v-else>
+          {{ internalView.reload }}s
+        </template>
+      </template>
+      <template v-else>
+        No reloads
+      </template>
+      <Slider v-model="internalView.reload" :min=0 :max=144 :step=1 class="w-full my-4" />
     </template>
     <template v-if="internalView.type === 'iframe'">
       Zoom level {{ internalView.zoom }}

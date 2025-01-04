@@ -11,6 +11,7 @@ type BaseView = {
 
 type BaseResourceView = BaseView & {
   url: string
+  reload: number
 }
 
 type BaseLayoutView = {
@@ -84,6 +85,7 @@ export function addView(layout: ContainerView) {
     height: 25,
     width: 25,
     zoom: 1,
+    reload: 0,
     css: "",
     script: "",
     effects: []

@@ -12,7 +12,7 @@
       {{ status === 'CONNECTING' ? 'Connecting...' : 'Disconnected' }}
     </p>
     <p id="copyright-notice" class="fixed bottom-2 right-2 bg-black bg-opacity-50 text-white p-2 rounded text-base">
-      TheWall - &copy; 2024 Iwan Timmer
+      TheWall - &copy; 2024-2025 Iwan Timmer
     </p>
   </div>
 </template>
