@@ -19,7 +19,7 @@
     <template v-else-if="internalView.type === 'list'">
       <Dropdown v-model="internalView.transition" :options="transitions" optionLabel="name" optionValue="value" placeholder="Select an effect" class="w-full my-2" />
       Switch every {{ internalView.timeout }}s
-      <Slider v-model="internalView.timeout" min=1 max=300 class="w-full my-4" />
+      <Slider v-model="internalView.timeout" :min=1 :max=300 class="w-full my-4" />
     </template>
     <InputText v-else-if="internalView.type !== 'webrtc'" type="text" v-model="internalView.url" class="my-2" />
     <template v-if="internalView.type !== 'layout' && internalView.type !== 'root' && internalView.type !== 'list'">
@@ -81,6 +81,7 @@ const viewTypes = [
 ]
 
 const transitions = [
+  { name: 'None', value: undefined },
   { name: 'Fade', value: 'fade' },
   { name: 'Slide', value: 'slide' },
   { name: 'Slide (fade)', value: 'slide-fade'},
@@ -135,7 +136,6 @@ const saveName = ref('')
 
 function loadLayout() {
   useFetch(`/api/layout?id=${selectedLayout.value}`).then((layout) => {
-    console.log("Layout", layout.data.value)
     props.view.constraints = layout.data.value.constraints
     props.view.views = layout.data.value.views
   })
