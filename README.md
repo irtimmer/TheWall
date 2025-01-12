@@ -24,6 +24,9 @@ Due to CSP and Frame-Options headers, by default, you can't embed all external w
 To circumvent this, you need to install the browser extension, provided in the `extension` folder.
 This extension will remove the headers from the response, allowing you to embed any website.
 
+When you host the server not on 'localhost', Firefox may block cookies of shown websites due to Enhanced Tracking Protection.
+To prevent this, you need to disable Enhanced Tracking Protection for the TheWall server's domain.
+
 You can download and install a signed version of the extension from the [Mozilla Add-ons website](https://addons.mozilla.org/en-US/firefox/addon/thewall/).
 
 The wall computer can access the rendered wall by visiting `http://SERVER_IP:3000/WALL_ID`.
