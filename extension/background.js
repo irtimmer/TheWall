@@ -48,7 +48,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     browser.webRequest.onHeadersReceived.addListener(
       onHeadersReceived, {
         urls: [ '<all_urls>' ],
-        tabId: message.tabId
+        tabId: sender.tab.id
       },
       ['blocking', 'responseHeaders']
     )
