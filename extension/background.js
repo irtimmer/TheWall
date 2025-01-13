@@ -7,19 +7,27 @@ let trustedOrigin = null
 let scriptEnabled = false
 
 const onHeadersReceived = req => {
-  // Only modify headers for iframes on the top level
-  if (req.parentFrameId != 0)
+  // Only modify headers for sub-frames
+  if (req.parentFrameId == 0 && req.type != 'sub_frame')
     return {}
 
   let wallOrigin = req.frameAncestors.length == 0 ? 'None' : new URL(req.frameAncestors[req.frameAncestors.length - 1].url).origin
+  let frameOrigin = req.originUrl ? new URL(req.originUrl).origin : null
+  let reqOrigin = new URL(req.url).origin
+  let sameOrigin = req.parentFrameId == 0 || frameOrigin == reqOrigin
+
   let responseHeaders = req.responseHeaders
-  if (req.type == 'sub_frame')
+  if (req.type == 'sub_frame' && sameOrigin)
     responseHeaders = req.responseHeaders.filter(header => !REMOVE_HEADERS.includes(header.name.toLowerCase()))
 
   for (let header of responseHeaders) {
     const headerName = header.name.toLowerCase()
     switch (headerName) {
       case 'set-cookie':
+        // Keep SameSite if request is not same origin
+        if (!sameOrigin)
+          break
+
         // Replace SameSite=Lax and SameSite=Strict with SameSite=None to allow cookies in iframes
         header.value = header.value.replace(/SameSite=Lax|SameSite=Strict/i, 'SameSite=None')
         break

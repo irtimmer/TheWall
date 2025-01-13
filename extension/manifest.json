@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "TheWall",
-  "version": "0.3",
+  "version": "0.4",
   "description": "Wall Screen Controller",
   "permissions": ["<all_urls>", "webRequest", "webNavigation", "webRequestBlocking", "storage"],
   "icons": {
