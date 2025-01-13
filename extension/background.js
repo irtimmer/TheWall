@@ -11,6 +11,7 @@ const onHeadersReceived = req => {
   if (req.parentFrameId != 0)
     return {}
 
+  let wallOrigin = req.frameAncestors.length == 0 ? 'None' : new URL(req.frameAncestors[req.frameAncestors.length - 1].url).origin
   let responseHeaders = req.responseHeaders
   if (req.type == 'sub_frame')
     responseHeaders = req.responseHeaders.filter(header => !REMOVE_HEADERS.includes(header.name.toLowerCase()))
@@ -27,8 +28,11 @@ const onHeadersReceived = req => {
         if (req.type != 'sub_frame')
           break
 
-        // Allow all content to be loaded in iframes
-        header.value = header.value.replace(/frame-ancestors [^;]+;?/i, '')
+        // Add the wall origin to the frame-ancestors directive
+        header.value = header.value.replace(/frame-ancestors ([^;]+);?/i, `frame-ancestors $1 ${wallOrigin};`)
+
+        // Remove frame-ancestors 'none' directive
+        header.value = header.value.replace(/frame-ancestors 'none'/i, `frame-ancestors `)
         break
     }
   }
