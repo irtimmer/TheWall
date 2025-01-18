@@ -42,6 +42,13 @@ The control computer can access the control panel by visiting `http://SERVER_IP:
 
 Where `SERVER_IP` is the IP address of the server running the application, and `WALL_ID` is the ID of the wall you want to access.
 
+## Limitations
+
+Due to security restrictions, websites can't be totally fooled into thinking they are running in as a top-level document.
+This means that some websites may not work correctly when shown on the wall.
+For example, websites that use the `window.top` object to check if they are running in an iframe will not work correctly.
+To circumvent this, you can inject custom JavaScript to change the behavior of the website.
+
 ## WebRTC
 
 TheWall supports WebRTC for sharing your screen with the wall.
