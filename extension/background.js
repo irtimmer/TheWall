@@ -11,7 +11,7 @@ const onHeadersReceived = req => {
   if (req.parentFrameId == 0 && req.type != 'sub_frame')
     return {}
 
-  let wallOrigin = req.frameAncestors.length == 0 ? 'None' : new URL(req.frameAncestors[req.frameAncestors.length - 1].url).origin
+  let wallOrigin = req.frameAncestors && req.frameAncestors.length > 0 ? new URL(req.frameAncestors[req.frameAncestors.length - 1].url).origin : null
   let frameOrigin = req.originUrl ? new URL(req.originUrl).origin : null
   let reqOrigin = new URL(req.url).origin
   let sameOrigin = req.parentFrameId == 0 || frameOrigin == reqOrigin
@@ -33,7 +33,7 @@ const onHeadersReceived = req => {
         break
       case 'content-security-policy':
       case 'content-security-policy-report-only':
-        if (req.type != 'sub_frame')
+        if (req.type != 'sub_frame' && !wallOrigin)
           break
 
         // Add the wall origin to the frame-ancestors directive
